@@ -1,4 +1,3 @@
-import AssignmentIcon from '@material-ui/icons/Assignment';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import LayersIcon from '@material-ui/icons/Layers';
@@ -8,7 +7,6 @@ import {
     ListItem,
     ListItemIcon,
     ListItemText,
-    ListSubheader,
 } from '@material-ui/core';
 import * as React from 'react';
 

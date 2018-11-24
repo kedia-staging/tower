@@ -1,29 +1,20 @@
 import {
     AppBar,
-    Badge,
     Button,
     Divider,
     Drawer,
     IconButton,
     List,
-    ListItem,
-    ListItemIcon,
-    ListItemText,
     Toolbar,
     Typography,
 } from '@material-ui/core';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import classNames from 'classnames';
 import * as React from 'react';
 import { RouterProps } from 'react-router';
 import { mainListItems } from './listItems';
-import { SimpleTable } from '../SimpleTable';
-import { SimpleLineChart } from '../SimpleLineChart';
 
 interface DashboardComponentState {
     open: boolean;

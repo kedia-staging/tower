@@ -3,9 +3,6 @@ import {
     Avatar,
     Button,
     FormControl,
-    FormControlLabel,
-    Checkbox,
-    Theme,
     Input,
     InputLabel,
     Paper,
@@ -23,14 +20,6 @@ interface SignInProps {
 interface SignInState {
     email: string;
     password: string;
-}
-
-interface OnChangeEvent {
-    e: {
-        target: {
-            value: string;
-        }
-    }
 }
 
 type Props = SignInProps & RouterProps;
@@ -58,7 +47,7 @@ export class SignIn extends React.Component<Props, SignInState> {
         const cx = classnames('signin signin-main', classes);
 
         return (
-            <main className="signin signin-main">
+            <main className={cx}>
                 <Paper className="signin-main-paper">
                     <Avatar className="signin-main-paper-avatar">
                         <LockIcon />
