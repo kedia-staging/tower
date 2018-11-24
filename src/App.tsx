@@ -1,16 +1,19 @@
-import React, { Component } from 'react';
-import Button from '@material-ui/core/Button';
+import { History } from 'history';
+import * as React from 'react';
+import { Router } from 'react-router';
+import { Layout } from './routes';
 
-import './App.css';
-
-class App extends Component {
-  render() {
-    return (
-      <Button variant="contained" color="primary">
-        Openware
-      </Button>
-    );
-  }
+export interface AppProps {
+    history: History;
 }
 
-export default App;
+export class App extends React.Component<AppProps, {}, {}> {
+    public render() {
+        const { history } = this.props;
+        return (
+            <Router history={history}>
+                <Layout  history={history} />
+            </Router>
+        );
+    }
+}
