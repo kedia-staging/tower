@@ -1,7 +1,7 @@
+import LockIcon from '@material-ui/icons/LockOutlined';
 import {
     Avatar,
     Button,
-    CssBaseline,
     FormControl,
     FormControlLabel,
     Checkbox,
@@ -10,10 +10,7 @@ import {
     InputLabel,
     Paper,
     Typography,
-    withStyles,
-    createMuiTheme,
 } from '@material-ui/core';
-import LockIcon from '@material-ui/icons/LockOutlined';
 import classnames from 'classnames';
 import * as React from 'react';
 import { RouterProps } from 'react-router';
@@ -62,7 +59,6 @@ export class SignIn extends React.Component<Props, SignInState> {
 
         return (
             <main className="signin signin-main">
-                <CssBaseline />
                 <Paper className="signin-main-paper">
                     <Avatar className="signin-main-paper-avatar">
                         <LockIcon />
@@ -128,14 +124,14 @@ export class SignIn extends React.Component<Props, SignInState> {
     private handleChangeEmail = (e: any) => {
         this.setState({
             email: e.target.value,
-        })
-    }
+        });
+    };
 
     private handleChangePassword = (e: any) => {
         this.setState({
             password: e.target.value,
-        })
-    }
+        });
+    };
 }
 
 export default SignIn;

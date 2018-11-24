@@ -7,7 +7,6 @@ import {
   TableHead,
   TableRow,
   Paper,
-  withStyles,
 } from '@material-ui/core';
 
 interface SimpleTableProps {

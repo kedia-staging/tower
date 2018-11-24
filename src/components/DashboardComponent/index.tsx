@@ -2,8 +2,6 @@ import {
     AppBar,
     Badge,
     Button,
-    createStyles,
-    CssBaseline,
     Divider,
     Drawer,
     IconButton,
@@ -13,7 +11,6 @@ import {
     ListItemText,
     Toolbar,
     Typography,
-    withStyles,
 } from '@material-ui/core';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
@@ -23,6 +20,7 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import classNames from 'classnames';
 import * as React from 'react';
+import { RouterProps } from 'react-router';
 import { mainListItems } from './listItems';
 import { SimpleTable } from '../SimpleTable';
 import { SimpleLineChart } from '../SimpleLineChart';
@@ -33,10 +31,13 @@ interface DashboardComponentState {
 
 interface DashboardComponentProps {
     classes?: string;
+    children: React.ReactNode;
 }
 
-export class DashboardComponent extends React.Component<DashboardComponentProps, DashboardComponentState> {
-    constructor(props: DashboardComponentProps) {
+type Props = DashboardComponentProps & RouterProps;
+
+export class DashboardComponent extends React.Component<Props, DashboardComponentState> {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -44,9 +45,19 @@ export class DashboardComponent extends React.Component<DashboardComponentProps,
         };
     }
 
+    public componentDidMount() {
+        const loggedIn = localStorage.getItem('loggedIn');
+        if (!(loggedIn && loggedIn === 'true')) {
+            this.props.history.push('/login');
+        }
+    }
+
     public render() {
         const { open } = this.state;
-        const { classes } = this.props;
+        const {
+            children,
+            classes,
+        } = this.props;
         const cx = classNames('dashboard', classes);
 
         return (
@@ -79,7 +90,7 @@ export class DashboardComponent extends React.Component<DashboardComponentProps,
                         >
                             Dashboard
                         </Typography>
-                        <Button color="inherit">
+                        <Button color="inherit" onClick={this.handleLogOut}>
                             Log out
                         </Button>
                     </Toolbar>
@@ -108,18 +119,7 @@ export class DashboardComponent extends React.Component<DashboardComponentProps,
                 </Drawer>
                 <main className="dashboard-content">
                     <div className="dashboard-app-bar-spacer"/>
-                    <Typography variant="h4" gutterBottom component="h2">
-                        Orders
-                    </Typography>
-                    <Typography component="div" className="dashboard-chart-container">
-                        <SimpleLineChart />
-                    </Typography>
-                    <Typography variant="h4" gutterBottom component="h2">
-                        Products
-                    </Typography>
-                    <div className="dashboard-table-container">
-                        <SimpleTable />
-                    </div>
+                    {children}
                 </main>
             </div>
         );
@@ -129,6 +129,11 @@ export class DashboardComponent extends React.Component<DashboardComponentProps,
         this.setState(prev => ({
             open: !prev.open,
         }));
+    }
+
+    private handleLogOut = () => {
+        localStorage.clear();
+        this.props.history.replace('/login');
     }
 }
 

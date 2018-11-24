@@ -12,7 +12,7 @@ export class App extends React.Component<AppProps, {}, {}> {
         const { history } = this.props;
         return (
             <Router history={history}>
-                <Layout  history={history} />
+                <Layout history={history} />
             </Router>
         );
     }

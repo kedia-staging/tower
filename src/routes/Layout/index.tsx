@@ -1,12 +1,13 @@
+import { History } from 'history';
 import * as React from 'react';
 import { Redirect, Route, Switch } from 'react-router';
 import {
-    DashboardScreen,
+    UsersScreen,
     SignInScreen,
 } from '../../screens';
 
 interface OwnProps {
-    history: any;
+    history: History;
 }
 
 type Props = OwnProps;
@@ -16,7 +17,7 @@ class LayoutComponent extends React.Component<Props> {
         return (
             <div className="tr-layout">
                 <Switch>
-                    <Route path="/admin" component={DashboardScreen} />
+                    <Route path="/admin" component={UsersScreen} />
                     <Route path="/login" component={SignInScreen} />
                     <Route path="**"
                            render={() => <Redirect to="/admin" />} />
