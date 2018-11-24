@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Redirect, Route, Switch } from 'react-router';
 import {
-    UsersScreen,
+    DashboardScreen,
 } from '../../screens';
 
 interface OwnProps {
@@ -15,9 +15,9 @@ class LayoutComponent extends React.Component<Props> {
         return (
             <div className="tr-layout">
                 <Switch>
-                    <Route path="/users" component={UsersScreen} />
+                    <Route path="/admin" component={DashboardScreen} />
                     <Route path="**"
-                           render={() => <Redirect to="/users" />} />
+                           render={() => <Redirect to="/admin" />} />
                 </Switch>
             </div>
         );

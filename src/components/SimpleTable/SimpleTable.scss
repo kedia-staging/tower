@@ -1,0 +1,10 @@
+.table {
+  &-root {
+    overflow-x: auto;
+    width: 100%;
+  }
+
+  &-body {
+    min-width: 700px;
+  }
+}
