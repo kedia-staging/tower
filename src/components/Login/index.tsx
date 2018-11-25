@@ -13,18 +13,18 @@ import * as React from 'react';
 import { RouterProps } from 'react-router';
 import { defaultUser } from '../../helpers';
 
-interface SignInProps {
+interface LoginProps {
     classes?: any;
 }
 
-interface SignInState {
+interface LoginState {
     email: string;
     password: string;
 }
 
-type Props = SignInProps & RouterProps;
+type Props = LoginProps & RouterProps;
 
-export class SignIn extends React.Component<Props, SignInState> {
+export class Login extends React.Component<Props, LoginState> {
     constructor(props: Props) {
         super(props);
 
@@ -123,4 +123,4 @@ export class SignIn extends React.Component<Props, SignInState> {
     };
 }
 
-export default SignIn;
+export default Login;

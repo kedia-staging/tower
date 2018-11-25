@@ -1,4 +1,3 @@
-export * from './DashboardComponent';
-export * from './SimpleLineChart';
-export * from './SimpleTable';
-export * from './SignIn';
+export * from './Navbar';
+export * from './HomePage';
+export * from './Login';

@@ -16,18 +16,18 @@ import * as React from 'react';
 import { RouterProps } from 'react-router';
 import { mainListItems } from './listItems';
 
-interface DashboardComponentState {
+interface NavbarState {
     open: boolean;
 }
 
-interface DashboardComponentProps {
+interface NavbarProps {
     classes?: string;
     children: React.ReactNode;
 }
 
-type Props = DashboardComponentProps & RouterProps;
+type Props = NavbarProps & RouterProps;
 
-export class DashboardComponent extends React.Component<Props, DashboardComponentState> {
+export class Navbar extends React.Component<Props, NavbarState> {
     constructor(props: Props) {
         super(props);
 
@@ -128,4 +128,4 @@ export class DashboardComponent extends React.Component<Props, DashboardComponen
     }
 }
 
-export default DashboardComponent;
+export default Navbar;

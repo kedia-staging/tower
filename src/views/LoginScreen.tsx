@@ -1,7 +1,7 @@
 import { History } from 'history';
 import * as React from 'react';
 import { RouterProps } from 'react-router';
-import { SignIn } from '../components/SignIn';
+import { Login } from '../components/Login';
 
 interface OwnProps {
     history: History;
@@ -9,15 +9,15 @@ interface OwnProps {
 
 type Props = OwnProps & RouterProps;
 
-class SignInScreen extends React.Component<Props> {
+class LoginScreen extends React.Component<Props> {
     public render() {
         const { history } = this.props;
         return (
-            <SignIn history={history} />
+            <Login history={history} />
         );
     }
 }
 
 export {
-    SignInScreen,
+    LoginScreen,
 };
