@@ -28,7 +28,7 @@ class UsersScreen extends React.Component<Props> {
                     <SimpleLineChart />
                 </Typography>
                 <Typography variant="h4" gutterBottom component="h2">
-                    Products
+                    Users
                 </Typography>
                 <div className="dashboard-table-container">
                     <SimpleTable />

@@ -82,7 +82,7 @@ export class DashboardComponent extends React.Component<Props, DashboardComponen
                             Dashboard
                         </Typography>
                         <Button color="inherit" onClick={this.handleLogOut}>
-                            Log out
+                            Logout
                         </Button>
                     </Toolbar>
                 </AppBar>

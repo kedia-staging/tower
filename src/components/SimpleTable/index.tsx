@@ -14,12 +14,14 @@ interface SimpleTableProps {
 };
 
 interface TableRowDataInterface {
+    email: string;
+    auth: string;
+    level: number;
+    role: string;
+    uid: number;
     id: number;
-    name: string;
-    calories: number;
-    fat: number;
-    carbs: number;
-    protein: number;
+    state: string;
+    created: string;
 }
 
 interface SimpleTableState {
@@ -54,24 +56,28 @@ export class SimpleTable extends React.Component<SimpleTableProps, SimpleTableSt
                 <Table className="table-body">
                     <TableHead>
                         <TableRow>
-                            <TableCell>Dessert (100g serving)</TableCell>
-                            <TableCell numeric>Calories</TableCell>
-                            <TableCell numeric>Fat (g)</TableCell>
-                            <TableCell numeric>Carbs (g)</TableCell>
-                            <TableCell numeric>Protein (g)</TableCell>
+                            <TableCell>UID</TableCell>
+                            <TableCell>Email</TableCell>
+                            <TableCell numeric>Level</TableCell>
+                            <TableCell>Role</TableCell>
+                            <TableCell>OTP</TableCell>
+                            <TableCell>State</TableCell>
+                            <TableCell>Created</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {data.map(n => {
                             return (
                                 <TableRow key={n.id}>
+                                    <TableCell>{n.uid}</TableCell>
                                     <TableCell component="th" scope="row">
-                                      {n.name}
+                                      {n.email}
                                     </TableCell>
-                                    <TableCell numeric>{n.calories}</TableCell>
-                                    <TableCell numeric>{n.fat}</TableCell>
-                                    <TableCell numeric>{n.carbs}</TableCell>
-                                    <TableCell numeric>{n.protein}</TableCell>
+                                    <TableCell numeric>{n.level}</TableCell>
+                                    <TableCell>{n.role}</TableCell>
+                                    <TableCell>{n.auth}</TableCell>
+                                    <TableCell>{n.state}</TableCell>
+                                    <TableCell>{n.created}</TableCell>
                                 </TableRow>
                             );
                         })}
@@ -81,26 +87,25 @@ export class SimpleTable extends React.Component<SimpleTableProps, SimpleTableSt
         );
     }
 
-    private createData = (name: string, calories: number, fat: number, carbs: number, protein: number) => {
+    private createData = (email: string, auth: string, level: number, role: string, uid: number, state: string, created: string) => {
         this.id += 1;
         const tableDataObject: TableRowDataInterface = {
             id: this.id,
-            name: name,
-            calories: calories,
-            fat: fat,
-            carbs: carbs,
-            protein: protein,
+            email: email,
+            auth: auth,
+            level: level,
+            role: role,
+            uid: uid,
+            state: state,
+            created: created,
         };
         return tableDataObject;
     };
 
     private getDataForTable = () => {
         return [
-            this.createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-            this.createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-            this.createData('Eclair', 262, 16.0, 24, 6.0),
-            this.createData('Cupcake', 305, 3.7, 67, 4.3),
-            this.createData('Gingerbread', 356, 16.0, 49, 3.9),
+            this.createData('admin@peatio.tech', 'Yes', 3, 'Admin', 93223831123, 'Active', '2018-09-01'),
+            this.createData('akhlopiachyi@helisotech.fr', 'No', 1, 'Member', 93223831123, 'Pending', '2018-11-21'),
         ];
     }
 }
