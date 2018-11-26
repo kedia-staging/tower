@@ -1,14 +1,23 @@
+import {
+  BrowserRouter,
+  Route,
+  Switch,
+} from 'react-router-dom';
 import React, { Component } from 'react';
-import Button from '@material-ui/core/Button';
 
-import './App.css';
+import Layout from './components/Layout';
+import Dashboard from './containers/Dashboard';
+import LoginContainer from './containers/Login';
 
-class App extends Component {
+class App extends React.Component {
   render() {
     return (
-      <Button variant="contained" color="primary">
-        Openware
-      </Button>
+      <BrowserRouter>
+        <Switch>
+          <Route exact path="/" render={() => <Layout><Dashboard /></Layout>}/>
+          <Route path="/login" render={() => <LoginContainer />}/>
+        </Switch>
+      </BrowserRouter>
     );
   }
 }
