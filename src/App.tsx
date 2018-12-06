@@ -12,7 +12,7 @@ import LoginContainer from './containers/Login';
 class App extends React.Component {
   render() {
     return (
-      <BrowserRouter>
+      <BrowserRouter basename="/tower">
         <Switch>
           <Route exact path="/" render={() => <Layout><Dashboard /></Layout>}/>
           <Route path="/login" render={() => <LoginContainer />}/>

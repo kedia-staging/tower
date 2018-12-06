@@ -2,6 +2,7 @@
   "name": "tower",
   "version": "0.1.0",
   "private": true,
+  "homepage": "/tower",
   "dependencies": {
     "@material-ui/core": "^3.5.1",
     "@material-ui/icons": "^3.0.1",
