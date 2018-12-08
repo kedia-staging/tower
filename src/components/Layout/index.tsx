@@ -1,10 +1,8 @@
 import * as React from 'react';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import { WithStyles, createStyles } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
+import { WithStyles, createStyles, CssBaseline } from '@material-ui/core';
+import { withStyles, Theme } from '@material-ui/core/styles';
 
-import NavBar from '../NavBar';
+import { Navbar } from '../';
 
 const styles = (theme: Theme) => createStyles({
   root: {
@@ -26,10 +24,10 @@ const styles = (theme: Theme) => createStyles({
 interface Props extends WithStyles<typeof styles> {
     theme: Theme;
     children: React.ReactNode;
+    logout: () => void;
 }
 
-class Layout extends React.Component<Props, object> {
-
+class LayoutComponent extends React.Component<Props, object> {
     public render() {
         const {
             classes,
@@ -40,7 +38,7 @@ class Layout extends React.Component<Props, object> {
         return (
             <div className={classes.root}>
                 <CssBaseline />
-                <NavBar />
+                <Navbar logout={this.handleLogout} />
 
                 <main className={classes.content}>
                     <div className={classes.toolbar} />
@@ -49,6 +47,8 @@ class Layout extends React.Component<Props, object> {
             </div>
         );
     }
+
+    private handleLogout = () => this.props.logout();
 }
 
-export default withStyles(styles, { withTheme: true })(Layout);
+export const Layout = withStyles(styles, { withTheme: true })(LayoutComponent);
