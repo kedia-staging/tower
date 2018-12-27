@@ -24,6 +24,7 @@ import CheckedIcon from '@material-ui/icons/Check';
 import UpIcon from '@material-ui/icons/ArrowUpwardSharp';
 import DownIcon from '@material-ui/icons/ArrowDownwardSharp';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
+import Button from '@material-ui/core/Button';
 
 const drawerWidth = 240;
 
@@ -82,10 +83,14 @@ const styles = (theme: Theme) => createStyles({
     padding: '0 8px',
     ...theme.mixins.toolbar,
   },
+  grow: {
+    flexGrow: 1,
+  },
 });
 
 interface Props extends WithStyles<typeof styles> {
     theme: Theme;
+    logout: () => void;
 }
 
 class NavBar extends React.Component<Props, object> {
@@ -123,9 +128,10 @@ class NavBar extends React.Component<Props, object> {
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" color="inherit" noWrap>
+            <Typography variant="h6" color="inherit" className={classes.grow}>
               Control Tower
             </Typography>
+            <Button color="inherit" onClick={this.handleLogout}>Logout</Button>
           </Toolbar>
         </AppBar>
         <Drawer
@@ -151,7 +157,7 @@ class NavBar extends React.Component<Props, object> {
           <List>
             {['Account', 'Dashboard', 'Currencies', 'Market', 'Proofs', 'Deposits', 'Withdraws'].map((text, index) => (
               <ListItem button key={text}>
-                <ListItemIcon>{index === 0 ? <AccountIcon /> : index === 1 ? <DashboardIcon /> : index === 2 ? <CurrencyIcon/> 
+                <ListItemIcon>{index === 0 ? <AccountIcon /> : index === 1 ? <DashboardIcon /> : index === 2 ? <CurrencyIcon/>
                    : index === 3 ? <ChartIcon/> : index === 4 ? <CheckedIcon/> : index === 5 ? <UpIcon/> : <DownIcon/>}
                 </ListItemIcon>
                 <ListItemText primary={text} />
@@ -162,6 +168,8 @@ class NavBar extends React.Component<Props, object> {
       </div>
     );
   }
+
+  private handleLogout = () => this.props.logout();
 }
 
-export default withStyles(styles, { withTheme: true })(NavBar);
+export const Navbar = withStyles(styles, { withTheme: true })(NavBar);
