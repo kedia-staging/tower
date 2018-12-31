@@ -1,8 +1,8 @@
 import { UserDataAction } from '../actions';
 import {
+    GET_USER_DATA_ERROR,
     GET_USER_DATA_FETCH,
     GET_USER_DATA_SUCCESS,
-    GET_USER_DATA_ERROR,
 } from '../constants';
 
 export interface UserDataState {
