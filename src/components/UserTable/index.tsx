@@ -1,14 +1,19 @@
 import {
+    createStyles,
     Paper,
     Table,
     TableBody,
     TableCell,
     TableHead,
     TableRow,
+    Theme,
     Typography,
+    WithStyles,
+    withStyles,
 } from '@material-ui/core';
 import classnames from 'classnames';
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import {
     convertToOtp,
     convertToUTCTime,
@@ -20,12 +25,30 @@ import {
 interface UserTableProps {
     classNames?: string;
     users: UserInterface[];
-    getUserData: (uid: string) => void;
 };
 
-class UserTableComponent extends React.Component<UserTableProps> {
+const styles = (theme: Theme) => createStyles({
+    link: {
+        cursor: 'pointer',
+        textDecoration: 'none',
+        color: '#000',
+        fontSize: '16px',
+    },
+});
+
+interface StyleProps extends WithStyles<typeof styles> {
+    theme?: Theme;
+}
+
+type Props = StyleProps & UserTableProps;
+
+class UserTableComponent extends React.Component<Props> {
     public render() {
-        const { classNames, users } = this.props;
+        const {
+            classes,
+            classNames,
+            users
+        } = this.props;
         const cx = classnames('table table-root', classNames);
 
         return (
@@ -50,10 +73,10 @@ class UserTableComponent extends React.Component<UserTableProps> {
                             <TableBody>
                                 {users.map(user => {
                                     return (
-                                        <TableRow key={user.id}>
+                                        <TableRow key={user.uid}>
                                             <TableCell>{user.uid}</TableCell>
                                             <TableCell component="th" scope="row">
-                                            <span onClick={(e) => this.getUserData(user.uid)}>{user.email}</span>
+                                                <Link to={`/users/${user.uid}`} className={classes.link}>{user.email}</Link>
                                             </TableCell>
                                             <TableCell numeric>{user.level}</TableCell>
                                             <TableCell>{user.role}</TableCell>
@@ -70,10 +93,6 @@ class UserTableComponent extends React.Component<UserTableProps> {
             </div>
         );
     }
-
-    private getUserData = (uid: string) => {
-        this.props.getUserData(uid);
-    }
 }
 
-export const UserTable = UserTableComponent;
+export const UserTable = withStyles(styles)(UserTableComponent);

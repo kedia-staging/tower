@@ -1,22 +1,12 @@
-import {
-    BrowserRouter,
-    Route,
-    Switch,
-} from 'react-router-dom';
 import React, { Component } from 'react';
-import {
-    Dashboard,
-    Login,
-} from './containers';
+import { BrowserRouter } from 'react-router-dom';
+import { AppRouter } from './router';
 
 class App extends React.Component {
     public render() {
         return (
             <BrowserRouter basename="/tower">
-                <Switch>
-                    <Route exact={true} path="/" component={Dashboard}/>
-                    <Route exact={true} path="/login" component={Login}/>
-                </Switch>
+                <AppRouter />
             </BrowserRouter>
         );
     }

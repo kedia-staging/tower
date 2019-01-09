@@ -4,6 +4,7 @@ import axios, {
     AxiosRequestConfig,
     AxiosResponse,
 } from 'axios';
+import { host } from './config';
 
 export type HTTPMethod =
     'get'
@@ -13,7 +14,6 @@ export type HTTPMethod =
     | 'patch';
 
 export interface JsonBody {
-    // tslint:disable-next-line
     [key: string]: any;
 }
 
@@ -27,8 +27,12 @@ export interface ApiVariety {
     gateway: string;
 }
 
+interface Window {
+    env: any;
+}
+
 const api: ApiVariety = {
-    gateway: 'http://www.app.local',
+    gateway: host,
 };
 
 const buildRequest = (request: Request) => {
@@ -68,7 +72,7 @@ const formatError = (responseError: AxiosError) => {
     };
 };
 
-export const makeRequest = async (request: Request) => {
+export const makeRequest = (request: Request) => {
     const requestConfig = buildRequest(request);
 
     return new Promise((resolve, reject) => {

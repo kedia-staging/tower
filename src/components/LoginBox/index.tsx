@@ -96,9 +96,17 @@ class LoginComponent extends React.Component<Props> {
         );
     }
 
-    private handleEmail = (e: any) => this.props.handleChangeEmail(e);
-    private handlePassword = (e: any) => this.props.handleChangePassword(e);
-    private signIn = () => this.props.handleSignIn();
+    private handleEmail = (e: any) => {
+        this.props.handleChangeEmail(e);
+    };
+
+    private handlePassword = (e: any) => {
+        this.props.handleChangePassword(e);
+    };
+
+    private signIn = () => {
+        this.props.handleSignIn();
+    };
 }
 
 export const LoginBox = withStyles(styles, { withTheme: true })(LoginComponent);

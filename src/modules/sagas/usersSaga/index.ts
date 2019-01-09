@@ -1,4 +1,3 @@
-// tslint:disable-next-line
 import { takeLatest } from 'redux-saga/effects';
 import { GET_USERS_FETCH, GET_CURRENT_USER_FETCH } from '../../constants';
 import { getUsersSaga } from './getUsersSaga';

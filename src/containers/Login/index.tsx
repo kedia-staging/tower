@@ -14,11 +14,7 @@ import {
 } from 'react-redux';
 import { LoginBox } from '../../components';
 import {
-    AppState,
-    getCurrentUser,
-    selectCurrentUser,
     login,
-    UserInterface,
 } from '../../modules';
 
 const styles = (theme: Theme) => createStyles({
@@ -51,16 +47,11 @@ interface LoginState {
     password: string;
 }
 
-interface ReduxProps {
-    currentUser: UserInterface | undefined;
-}
-
 interface DispatchProps {
     login: typeof login;
-    getCurrentUser: typeof getCurrentUser;
 }
 
-type Props = StyleProps & DispatchProps & ReduxProps;
+type Props = StyleProps & DispatchProps;
 
 class LoginScreen extends React.Component<Props, LoginState> {
     constructor(props: Props) {
@@ -70,16 +61,6 @@ class LoginScreen extends React.Component<Props, LoginState> {
             email: '',
             password: '',
         };
-    }
-
-    public componentDidMount() {
-        this.props.getCurrentUser();
-    }
-
-    public componentWillReceiveProps(next: Props) {
-        if (next.currentUser) {
-            window.location.replace('/tower');
-        }
     }
 
     public render() {
@@ -120,15 +101,9 @@ class LoginScreen extends React.Component<Props, LoginState> {
     };
 }
 
-const mapStateToProps: MapStateToProps<ReduxProps, {}, AppState> =
-    (state: AppState): ReduxProps => ({
-        currentUser: selectCurrentUser(state),
-    });
-
 const mapDispatchToProps: MapDispatchToPropsFunction<DispatchProps, {}> =
     dispatch => ({
-        getCurrentUser: () => dispatch(getCurrentUser()),
         login: payload => dispatch(login(payload)),
     });
 
-export const Login = connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, { withTheme: true })(LoginScreen));
+export const Login = connect(null, mapDispatchToProps)(withStyles(styles, { withTheme: true })(LoginScreen));

@@ -48,7 +48,9 @@ class LayoutComponent extends React.Component<Props, object> {
         );
     }
 
-    private handleLogout = () => this.props.logout();
+    private handleLogout = () => {
+        this.props.logout();
+    };
 }
 
 export const Layout = withStyles(styles, { withTheme: true })(LayoutComponent);

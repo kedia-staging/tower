@@ -14,27 +14,27 @@ export interface ApiWrapper {
 }
 
 export const API: ApiWrapper = {
-    get: () => async (url: string) =>
+    get: () => (url: string) =>
         makeRequest({
             method: 'get',
             url,
         }),
 
-    post: () => async (url: string, body?: JsonBody) =>
+    post: () => (url: string, body?: JsonBody) =>
         makeRequest({
             method: 'post',
             body,
             url,
         }),
 
-    put: () => async (url: string, body?: JsonBody) =>
+    put: () => (url: string, body?: JsonBody) =>
         makeRequest({
             method: 'put',
             body,
             url,
         }),
 
-    delete: () => async (url: string) =>
+    delete: () => (url: string) =>
         makeRequest({
             method: 'delete',
             url,

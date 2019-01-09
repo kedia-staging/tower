@@ -8,7 +8,6 @@ import {
     Layout,
     OrderChart,
     UserTable,
-    UserModal,
 } from '../../components';
 import {
     AppState,
@@ -23,7 +22,6 @@ import {
 } from '../../modules';
 
 interface ReduxProps {
-    currentUser: UserInterface | undefined;
     users: UserInterface[];
     userData: any;
 }
@@ -31,7 +29,6 @@ interface ReduxProps {
 interface DispatchProps {
     getUsers: typeof getUsers;
     getUserData: typeof getUserData;
-    getCurrentUser: typeof getCurrentUser;
     logout: typeof logout;
 }
 
@@ -49,15 +46,9 @@ class DashboardScreen extends React.Component<Props, State> {
             openModal: false
         };
     }
+
     public componentDidMount() {
         this.props.getUsers();
-        this.props.getCurrentUser();
-    }
-
-    public componentWillReceiveProps(next: Props) {
-        if (!next.currentUser) {
-            window.location.replace('/tower/login');
-        }
     }
 
     public render() {
@@ -67,42 +58,24 @@ class DashboardScreen extends React.Component<Props, State> {
         return (
             <Layout logout={this.userLogout}>
                 <OrderChart />
-                { users ? <UserTable users={users} getUserData={this.getUser}/> : null}
-                { userData ? (<UserModal
-                    open={openModal}
-                    user={userData}
-                    modalClose={this.closeModal}
-                />) : null}
+                { users ? <UserTable users={users} /> : null}
             </Layout>
         );
     }
 
-    private userLogout = () => this.props.logout();
-
-    private getUser = (uid: string) => {
-        this.props.getUserData({ uid });
-        this.setState({
-            openModal: true,
-        });
+    private userLogout = () => {
+        this.props.logout();
     };
-
-    private closeModal = () => {
-        this.setState({
-            openModal: false,
-        });
-    }
 }
 
 const mapStateToProps: MapStateToProps<ReduxProps, {}, AppState> =
     (state: AppState): ReduxProps => ({
-        currentUser: selectCurrentUser(state),
         users: selectUsers(state),
         userData: selectUserData(state),
     });
 
 const mapDispatchToProps: MapDispatchToPropsFunction<DispatchProps, {}> =
     dispatch => ({
-        getCurrentUser: () => dispatch(getCurrentUser()),
         getUsers: () => dispatch(getUsers()),
         getUserData: payload => dispatch(getUserData(payload)),
         logout: () => dispatch(logout()),

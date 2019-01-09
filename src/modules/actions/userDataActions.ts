@@ -1,7 +1,7 @@
 import {
+    GET_USER_DATA_ERROR,
     GET_USER_DATA_FETCH,
     GET_USER_DATA_SUCCESS,
-    GET_USER_DATA_ERROR,
 } from '../constants';
 
 export interface UserDataError {
@@ -28,7 +28,9 @@ export interface UserDataError {
     payload: UserDataError,
 }
 
-export type UserDataAction = UserDataFetch | UserDataSuccess | UserDataError;
+export type UserDataAction = UserDataFetch
+    | UserDataSuccess
+    | UserDataError;
 
 export const getUserData = (payload: UserDataFetch['payload']): UserDataFetch => ({
     type: GET_USER_DATA_FETCH,
