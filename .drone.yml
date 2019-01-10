@@ -8,7 +8,7 @@ steps:
   commands:
     - yarn
     - yarn build
-      #    - yarn test
+    - yarn test
 
 - name: tag
   image: node:11
@@ -21,15 +21,16 @@ steps:
     - git remote add authenticated-origin https://kite-bot:$GITHUB_API_KEY@github.com/${DRONE_REPO}
     - git fetch
     - yarn config set version-git-message "[ci Skip] Bump %s"
+    - yarn config set version-tag-prefix ""
     - yarn version --patch -y
-      # - git push authenticated-origin master
+    - git push authenticated-origin drone-test
       # - git push --tags authenticated-origin
     - git describe --tags $(git rev-list --tags --max-count=1) > .tags
   when:
     branch:
-      #  - master
+      # - master
     event:
-      #  - push
+      # - push
 
 - name: push-tag
   image: plugins/docker
@@ -43,7 +44,7 @@ steps:
     branch:
       # - master
     event:
-      #  - push
+      # - push
 
 - name: push-sha
   image: plugins/docker
@@ -61,17 +62,32 @@ steps:
     event:
       # - push
 
-- name: deploy
+- name: deploy to microkube
   image: rubykube/microkube:0.1.0
   environment:
       WEBHOOK_JWT_SECRET:
           from_secret: microkube_webhook_secret
   commands:
-    - export latest_image=rubykube/tower:$(cat .tags)
+    - latest_image=rubykube/tower:$(cat .tags)
     - cd /home/app
     - bundle exec rake payload:send[tower,$latest_image,http://www.microkube.com:1337]
   when:
     branch:
-      #  - master
+      # - master
+    event:
+      # - push
+
+- name: deploy to devkube
+  image: rubykube/microkube:0.1.0
+  environment:
+      WEBHOOK_JWT_SECRET:
+          from_secret: devkube_webhook_secret
+  commands:
+    - latest_image=rubykube/tower:$(cat .tags)
+    - cd /home/app
+    - bundle exec rake payload:send[tower,$latest_image,http://www.microkube.com:1337]
+  when:
+    branch:
+      # - master
     event:
       # - push
