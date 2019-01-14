@@ -16,7 +16,6 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import {
     convertToOtp,
-    convertToUTCTime,
 } from '../../helpers';
 import {
     UserInterface,
@@ -54,35 +53,31 @@ class UserTableComponent extends React.Component<Props> {
         return (
             <div>
                 <Typography variant="h4" gutterBottom component="h2">
-                    Users
+                    List of users
                 </Typography>
                 <div className="dashboard-table-container">
                     <Paper className={cx}>
                         <Table className="table-body">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>UID</TableCell>
                                     <TableCell>Email</TableCell>
+                                    <TableCell align={"right"}>Authorization method</TableCell>
                                     <TableCell numeric>Level</TableCell>
-                                    <TableCell>Role</TableCell>
-                                    <TableCell>OTP</TableCell>
-                                    <TableCell>State</TableCell>
-                                    <TableCell>Created</TableCell>
+                                    <TableCell align={"right"}>Role</TableCell>
+                                    <TableCell align={"right"}>UID</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
                                 {users.map(user => {
                                     return (
                                         <TableRow key={user.uid}>
-                                            <TableCell>{user.uid}</TableCell>
                                             <TableCell component="th" scope="row">
                                                 <Link to={`/users/${user.uid}`} className={classes.link}>{user.email}</Link>
                                             </TableCell>
+                                            <TableCell align={"right"}>{convertToOtp(user.otp) === 'true' ? '2FA' : '-'}</TableCell>
                                             <TableCell numeric>{user.level}</TableCell>
-                                            <TableCell>{user.role}</TableCell>
-                                            <TableCell>{convertToOtp(user.otp)}</TableCell>
-                                            <TableCell>{user.state}</TableCell>
-                                            <TableCell>{convertToUTCTime(user.created_at)}</TableCell>
+                                            <TableCell align={"right"}>{user.role}</TableCell>
+                                            <TableCell align={"right"}>{user.uid}</TableCell>
                                         </TableRow>
                                     );
                                 })}
