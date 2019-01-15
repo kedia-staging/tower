@@ -23,7 +23,7 @@ import {
 } from '../../helpers';
 
 interface UserDataProps {
-    addNewLabel: () => void;
+    addNewLabel: (key: string, value: string, scope: string) => void;
     changeLabelName: (value: string) => void;
     changeLabelScope: (value: string) => void;
     changeLabelValue: (value: string) => void;
@@ -34,7 +34,7 @@ interface UserDataProps {
     newLabelScope: string;
     newLabelValue: string;
     openAddLabelModal: boolean;
-    openModal: () => void;
+    openModal: (key: string, value: string, scope: string) => void;
     user: any;
 }
 
@@ -51,14 +51,26 @@ const styles = (theme: Theme) => createStyles({
         height: 40,
         paddingLeft: 16,
         borderRadius: 24,
-        minWidth: 190,
         width: 'auto',
+        cursor: "pointer",
     },
     icon: {
         width: 32,
         height: 32,
         margin: 4,
         cursor: "pointer",
+    },
+    labelName: {
+        paddingTop: 8,
+        color: "#ffffff",
+        fontSize: 16,
+        marginRight: 7,
+    },
+    focus: {
+        '&:focus': {
+            backgroundColor: '#ffffff',
+            boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
+        },
     },
 });
 
@@ -110,8 +122,10 @@ class UserDataComponent extends React.Component<Props> {
                         <Typography variant="h6" gutterBottom component="h6">
                             <TextField
                                 select
+                                InputProps={{ className: classes.focus }}
                                 value={user.state}
                                 label="State"
+                                variant="outlined"
                                 className={classes.textField}
                                 onChange={this.changeUserState}
                                 SelectProps={{
@@ -193,7 +207,7 @@ class UserDataComponent extends React.Component<Props> {
                                 case 'email': return (
                                     <Grid item>
                                         <Grid container justify={"space-between"} className={classes.label} style={{ backgroundColor: "#43A047" }}>
-                                            <Typography style={{ paddingTop: 8, color: "#ffffff", fontSize: 16 }}>
+                                            <Typography onClick={(e) => this.openAddLabelModal(label.key, label.value, label.scope)} className={classes.labelName}>
                                                 email:{label.value}
                                             </Typography>
                                             <SvgIcon onClick={(e) => this.deleteLabel(user.uid, 'email', 'private')} className={classes.icon} viewBox="0 0 32 32">
@@ -205,7 +219,7 @@ class UserDataComponent extends React.Component<Props> {
                                 case 'phone': return (
                                     <Grid item>
                                         <Grid container justify={"space-between"} className={classes.label} style={{ backgroundColor: "#009688" }}>
-                                            <Typography style={{ paddingTop: 8, color: "#ffffff", fontSize: 16 }}>
+                                            <Typography onClick={(e) => this.openAddLabelModal(label.key, label.value, label.scope)} className={classes.labelName}>
                                                 phone:{label.value}
                                             </Typography>
                                             <SvgIcon onClick={(e) => this.deleteLabel(user.uid, 'phone', 'private')} className={classes.icon} viewBox="0 0 32 32">
@@ -217,7 +231,7 @@ class UserDataComponent extends React.Component<Props> {
                                 case 'documents': return (
                                     <Grid item>
                                         <Grid container justify={"space-between"} className={classes.label} style={{ backgroundColor: "#3F51B5" }}>
-                                            <Typography style={{ paddingTop: 8, color: "#ffffff", fontSize: 16 }}>
+                                            <Typography onClick={(e) => this.openAddLabelModal(label.key, label.value, label.scope)} className={classes.labelName}>
                                                 document:{label.value}
                                             </Typography>
                                             <SvgIcon onClick={(e) => this.deleteLabel(user.uid, 'documents', 'private')} className={classes.icon} viewBox="0 0 32 32">
@@ -229,7 +243,7 @@ class UserDataComponent extends React.Component<Props> {
                                 default: return (
                                     <Grid item>
                                         <Grid container justify={"space-between"} className={classes.label} style={{ backgroundColor: "#e0e0e0" }}>
-                                            <Typography style={{ paddingTop: 8, color: "#757575", fontSize: 16 }}>
+                                            <Typography onClick={(e) => this.openAddLabelModal(label.key, label.value, label.scope)} style={{ paddingTop: 8, color: "#757575", fontSize: 16, marginRight: 7 }}>
                                                 {label.key}
                                             </Typography>
                                             <SvgIcon onClick={(e) => this.deleteLabel(user.uid, 'documents', 'private')} className={classes.icon} viewBox="0 0 32 32">
@@ -241,9 +255,9 @@ class UserDataComponent extends React.Component<Props> {
                             }
                         })}
                         <Grid item>
-                            <Button onClick={(e) => this.openAddLabelModal()}>
+                            <Button onClick={(e) => this.openAddLabelModal('', '', 'public')}>
                                 <Typography variant="h6" component="h6" style={{ color: "#3598D5" }}>
-                                    <b>ADD NEW LABEL</b>
+                                    ADD NEW LABEL
                                 </Typography>
                             </Button>
                         </Grid>
@@ -309,8 +323,8 @@ class UserDataComponent extends React.Component<Props> {
         );
     }
 
-    private openAddLabelModal = () => {
-        this.props.openModal();
+    private openAddLabelModal = (key: string, value: string, scope: string) => {
+        this.props.openModal(key, value, scope);
     };
 
     private modalClose = () => {

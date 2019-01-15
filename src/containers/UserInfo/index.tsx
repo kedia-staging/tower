@@ -106,9 +106,12 @@ class UserInfoScreen extends React.Component<Props, UserInfoState> {
         });
     };
 
-    private handleOpenModal = () => {
+    private handleOpenModal = (key: string, value: string, scope: string) => {
         this.setState({
             openModal: true,
+            nameLabel: key,
+            valueLabel: value,
+            scopeLabel: scope,
         });
     };
 
