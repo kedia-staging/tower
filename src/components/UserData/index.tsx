@@ -146,57 +146,116 @@ class UserDataComponent extends React.Component<Props> {
                     <br/>
                     <Grid container justify={"space-between"} style={{ marginTop: 20, marginBottom: 40 }}>
                         <Grid item xs={3}>
-                            <Typography variant="h6" gutterBottom component="h6">
-                                Level
-                                <br/>
+                            <Typography variant="h6" component="h6" gutterBottom>
+                                <b>Level</b>
+                            </Typography>
+                            <Typography variant="h6" gutterBottom component="h6" style={{ color: "#757575" }}>
                                 {user.level}
                             </Typography>
                         </Grid>
                         <Grid item xs={3}>
                             <Typography variant="h6" gutterBottom component="h6">
-                                Authorization
-                                <br/>
+                                <b>Authorization</b>
+                            </Typography>
+                            <Typography variant="h6" gutterBottom component="h6" style={{ color: "#757575" }}>
                                 {convertToOtp(user.otp) === 'true' ? '2FA' : '-'}
                             </Typography>
                         </Grid>
                         <Grid item xs={3}>
                             <Typography variant="h6" gutterBottom component="h6">
-                                Role
-                                <br/>
+                                <b>Role</b>
+                            </Typography>
+                            <Typography variant="h6" gutterBottom component="h6" style={{ color: "#757575" }}>
                                 {user.role}
                             </Typography>
                         </Grid>
                         <Grid item xs={3}>
                             <Typography variant="h6" gutterBottom component="h6" align={"right"}>
-                                UID
-                                <br/>
+                                <b>UID</b>
+                            </Typography>
+                            <Typography variant="h6" gutterBottom component="h6" align={"right"} style={{ color: "#757575" }}>
                                 {user.uid}
                             </Typography>
                         </Grid>
                     </Grid>
                     <Grid container justify={"space-between"} style={{ marginTop: 20, marginBottom: 40 }}>
                         <Grid item xs={3}>
-                            <Typography variant="h6" gutterBottom component="h6">
-                                Phone number
-                                <br/>
-                                {user.phones[0].number}
+                            <Typography variant="h6" component="h6" gutterBottom>
+                                <b>First name</b>
+                            </Typography>
+                            <Typography variant="h6" gutterBottom component="h6" style={{ color: "#757575" }}>
+                                {user.profile.first_name}
                             </Typography>
                         </Grid>
                         <Grid item xs={3}>
                             <Typography variant="h6" gutterBottom component="h6">
-                                Country
-                                <br/>
+                                <b>Last name</b>
+                            </Typography>
+                            <Typography variant="h6" gutterBottom component="h6" style={{ color: "#757575" }}>
+                                {user.profile.last_name}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={3}>
+                            <Typography variant="h6" gutterBottom component="h6">
+                                <b>Day of Birth</b>
+                            </Typography>
+                            <Typography variant="h6" gutterBottom component="h6" style={{ color: "#757575" }}>
+                                {user.profile.dob}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={3}>
+                            <Typography variant="h6" gutterBottom component="h6" align={"right"}>
+                                <b>Phone number</b>
+                            </Typography>
+                            <Typography variant="h6" gutterBottom align={"right"} component="h6" style={{ color: "#757575" }}>
+                                {user.phones[0].number}
+                            </Typography>
+                        </Grid>
+                    </Grid>
+                    <Grid container justify={"space-between"} style={{ marginTop: 20, marginBottom: 40 }}>
+                        <Grid item xs={3}>
+                            <Typography variant="h6" gutterBottom component="h6">
+                                <b>Country</b>
+                            </Typography>
+                            <Typography variant="h6" gutterBottom component="h6" style={{ color: "#757575" }}>
                                 {user.profile.country}
                             </Typography>
                         </Grid>
                         <Grid item xs={3}>
                             <Typography variant="h6" gutterBottom component="h6">
-                                Validated at
-                                <br/>
+                                <b>City</b>
+                            </Typography>
+                            <Typography variant="h6" gutterBottom component="h6" style={{ color: "#757575" }}>
+                                {user.profile.city}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={3}>
+                            <Typography variant="h6" gutterBottom component="h6">
+                                <b>Address</b>
+                            </Typography>
+                            <Typography variant="h6" gutterBottom component="h6" style={{ color: "#757575" }}>
+                                {user.profile.address}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={3}>
+                            <Typography variant="h6" gutterBottom component="h6" align={"right"}>
+                                <b>Postcode</b>
+                            </Typography>
+                            <Typography variant="h6" gutterBottom component="h6" align={"right"} style={{ color: "#757575" }}>
+                                {user.profile.postcode}
+                            </Typography>
+                        </Grid>
+                    </Grid>
+                    <Grid container justify={"space-between"} style={{ marginTop: 20, marginBottom: 40 }}>
+                        <Grid item xs={3}>
+                            <Typography variant="h6" gutterBottom component="h6">
+                                <b>Validated at</b>
+                            </Typography>
+                            <Typography variant="h6" gutterBottom component="h6" style={{ color: "#757575" }}>
                                 {convertToUTCTime(user.phones[0].validated_at)}
                             </Typography>
                         </Grid>
-                        <Grid item xs={3}/>
+                        <Grid item xs={9} />
                     </Grid>
                     <Typography variant="h5" gutterBottom component="h5">
                         Labels
