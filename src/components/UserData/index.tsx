@@ -3,6 +3,7 @@ import {
     createStyles,
     Grid,
     Paper,
+    Switch,
     Table,
     TableBody,
     TableCell,
@@ -28,6 +29,7 @@ interface UserDataProps {
     changeLabelScope: (value: string) => void;
     changeLabelValue: (value: string) => void;
     changeState: (value: string) => void;
+    changeRole: (value: string) => void;
     closeModal: () => void;
     deleteUserLabel: (uid: string, key: string, scope: string) => void;
     newLabelName: string;
@@ -42,7 +44,7 @@ const styles = (theme: Theme) => createStyles({
     textField: {
         marginLeft: theme.spacing.unit,
         marginRight: theme.spacing.unit,
-        width: 200,
+        width: "75%",
     },
     menu: {
         width: 200,
@@ -66,12 +68,6 @@ const styles = (theme: Theme) => createStyles({
         fontSize: 16,
         marginRight: 7,
     },
-    focus: {
-        '&:focus': {
-            backgroundColor: '#ffffff',
-            boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
-        },
-    },
 });
 
 const stateTypes = [
@@ -85,6 +81,17 @@ const stateTypes = [
     },
 ];
 
+const roleTypes = [
+    {
+        value: 'Admin',
+        key: 'admin',
+    },
+    {
+        value: 'Member',
+        key: 'member',
+    },
+];
+
 interface StyleProps extends WithStyles<typeof styles> {
     theme?: Theme;
 }
@@ -92,6 +99,13 @@ interface StyleProps extends WithStyles<typeof styles> {
 type Props = StyleProps & UserDataProps;
 
 class UserDataComponent extends React.Component<Props> {
+    state = {
+        userState: this.props.user.state,
+        role: this.props.user.role,
+        auth: this.props.user.otp,
+        showMore: false,
+    };
+
     public render() {
         const {
             classes,
@@ -115,34 +129,9 @@ class UserDataComponent extends React.Component<Props> {
                     </Typography>
                 </Grid>
                 <Paper style={{ padding: 20, marginBottom: 15 }}>
-                    <Grid container justify={"space-between"}>
-                        <Typography variant="h3" gutterBottom component="h3">
-                            {user.email}
-                        </Typography>
-                        <Typography variant="h6" gutterBottom component="h6">
-                            <TextField
-                                select
-                                InputProps={{ className: classes.focus }}
-                                value={user.state}
-                                label="State"
-                                variant="outlined"
-                                className={classes.textField}
-                                onChange={this.changeUserState}
-                                SelectProps={{
-                                    native: true,
-                                    MenuProps: {
-                                        className: classes.menu,
-                                    },
-                                }}
-                            >
-                                {stateTypes.map(option => (
-                                    <option key={option.key} value={option.key}>
-                                        {option.value}
-                                    </option>
-                                ))}
-                            </TextField>
-                        </Typography>
-                    </Grid>
+                    <Typography variant="h3" gutterBottom component="h3">
+                        {user.email}
+                    </Typography>
                     <br/>
                     <Grid container justify={"space-between"} style={{ marginTop: 20, marginBottom: 40 }}>
                         <Grid item xs={3}>
@@ -155,26 +144,42 @@ class UserDataComponent extends React.Component<Props> {
                         </Grid>
                         <Grid item xs={3}>
                             <Typography variant="h6" gutterBottom component="h6">
-                                <b>Authorization</b>
+                                <b>UID</b>
                             </Typography>
                             <Typography variant="h6" gutterBottom component="h6" style={{ color: "#757575" }}>
-                                {convertToOtp(user.otp) === 'true' ? '2FA' : '-'}
+                                {user.uid}
                             </Typography>
                         </Grid>
                         <Grid item xs={3}>
                             <Typography variant="h6" gutterBottom component="h6">
-                                <b>Role</b>
+                                <b>Phone number</b>
                             </Typography>
                             <Typography variant="h6" gutterBottom component="h6" style={{ color: "#757575" }}>
-                                {user.role}
+                                {user.phones[0].number}
                             </Typography>
                         </Grid>
-                        <Grid item xs={3}>
-                            <Typography variant="h6" gutterBottom component="h6" align={"right"}>
-                                <b>UID</b>
-                            </Typography>
-                            <Typography variant="h6" gutterBottom component="h6" align={"right"} style={{ color: "#757575" }}>
-                                {user.uid}
+                        <Grid item xs={3} style={{ paddingTop: 5 }}>
+                            <Typography variant="h6" gutterBottom component="h6">
+                                <TextField
+                                    select
+                                    value={this.state.userState}
+                                    label="State"
+                                    variant="outlined"
+                                    className={classes.textField}
+                                    onChange={this.changeUserState}
+                                    SelectProps={{
+                                        native: true,
+                                        MenuProps: {
+                                            className: classes.menu,
+                                        },
+                                    }}
+                                >
+                                    {stateTypes.map(option => (
+                                        <option key={option.key} value={option.key}>
+                                            {option.value}
+                                        </option>
+                                    ))}
+                                </TextField>
                             </Typography>
                         </Grid>
                     </Grid>
@@ -203,12 +208,28 @@ class UserDataComponent extends React.Component<Props> {
                                 {user.profile.dob}
                             </Typography>
                         </Grid>
-                        <Grid item xs={3}>
-                            <Typography variant="h6" gutterBottom component="h6" align={"right"}>
-                                <b>Phone number</b>
-                            </Typography>
-                            <Typography variant="h6" gutterBottom align={"right"} component="h6" style={{ color: "#757575" }}>
-                                {user.phones[0].number}
+                        <Grid item xs={3} style={{ paddingTop: 5 }}>
+                            <Typography variant="h6" gutterBottom component="h6">
+                                <TextField
+                                    select
+                                    value={this.state.role}
+                                    label="Role"
+                                    variant="outlined"
+                                    className={classes.textField}
+                                    onChange={this.changeUserRole}
+                                    SelectProps={{
+                                        native: true,
+                                        MenuProps: {
+                                            className: classes.menu,
+                                        },
+                                    }}
+                                >
+                                    {roleTypes.map(option => (
+                                        <option key={option.key} value={option.key}>
+                                            {option.value}
+                                        </option>
+                                    ))}
+                                </TextField>
                             </Typography>
                         </Grid>
                     </Grid>
@@ -223,40 +244,76 @@ class UserDataComponent extends React.Component<Props> {
                         </Grid>
                         <Grid item xs={3}>
                             <Typography variant="h6" gutterBottom component="h6">
-                                <b>City</b>
-                            </Typography>
-                            <Typography variant="h6" gutterBottom component="h6" style={{ color: "#757575" }}>
-                                {user.profile.city}
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <Typography variant="h6" gutterBottom component="h6">
-                                <b>Address</b>
-                            </Typography>
-                            <Typography variant="h6" gutterBottom component="h6" style={{ color: "#757575" }}>
-                                {user.profile.address}
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <Typography variant="h6" gutterBottom component="h6" align={"right"}>
-                                <b>Postcode</b>
-                            </Typography>
-                            <Typography variant="h6" gutterBottom component="h6" align={"right"} style={{ color: "#757575" }}>
-                                {user.profile.postcode}
-                            </Typography>
-                        </Grid>
-                    </Grid>
-                    <Grid container justify={"space-between"} style={{ marginTop: 20, marginBottom: 40 }}>
-                        <Grid item xs={3}>
-                            <Typography variant="h6" gutterBottom component="h6">
                                 <b>Validated at</b>
                             </Typography>
                             <Typography variant="h6" gutterBottom component="h6" style={{ color: "#757575" }}>
                                 {convertToUTCTime(user.phones[0].validated_at)}
                             </Typography>
                         </Grid>
-                        <Grid item xs={9} />
+                        <Grid item xs={3}>
+                            {this.state.showMore ? (
+                                <><Typography variant="h6" gutterBottom component="h6">
+                                  <b>Postcode</b>
+                                </Typography>
+                                <Typography variant="h6" gutterBottom component="h6" style={{color: "#757575"}}>
+                                    {user.profile.postcode}
+                                </Typography></>
+                                ) : (
+                                <Button onClick={(e) => this.showMoreUserInfo(e)} style={{ marginTop: 10 }}>
+                                    <Typography variant="h6" component="h6" style={{ color: "#3598D5" }}>
+                                        MORE USER INFO
+                                    </Typography>
+                                </Button>
+                                )}
+                        </Grid>
+                        <Grid container justify={"flex-start"} item xs={3}>
+                            <Grid item style={{ paddingLeft: 10, marginRight: 60 }}>
+                                <Typography variant="h6" gutterBottom component="h6">
+                                    <b>Authorization 2FA</b>
+                                </Typography>
+                                <Typography variant="h6" gutterBottom component="h6" style={{ color: "#757575" }}>
+                                    {this.state.auth ? 'Enable' : 'Disable'}
+                                </Typography>
+                            </Grid>
+                            <Grid item>
+                                <Switch
+                                    checked={this.state.auth}
+                                    onChange={this.changeAuth}
+                                    color="primary"
+                                />
+                            </Grid>
+                        </Grid>
                     </Grid>
+                    {this.state.showMore ? (
+                        <Grid container justify={"space-between"} style={{marginTop: 20, marginBottom: 40}}>
+                          <Grid item xs={3}>
+                            <Typography variant="h6" gutterBottom component="h6">
+                              <b>City</b>
+                            </Typography>
+                            <Typography variant="h6" gutterBottom component="h6" style={{color: "#757575"}}>
+                                {user.profile.city}
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={3}>
+                            <Typography variant="h6" gutterBottom component="h6">
+                              <b>Address</b>
+                            </Typography>
+                            <Typography variant="h6" gutterBottom component="h6" style={{color: "#757575"}}>
+                                {user.profile.address}
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={3}>
+                              {this.state.showMore && (
+                                  <Button onClick={(e) => this.showMoreUserInfo(e)} style={{ marginTop: 10 }}>
+                                    <Typography variant="h6" component="h6" style={{ color: "#3598D5" }}>
+                                      LESS USER INFO
+                                    </Typography>
+                                  </Button>
+                              )}
+                          </Grid>
+                          <Grid item xs={3}/>
+                        </Grid>
+                    ) : null}
                     <Typography variant="h5" gutterBottom component="h5">
                         Labels
                     </Typography>
@@ -339,6 +396,7 @@ class UserDataComponent extends React.Component<Props> {
                         <TableHead>
                             <TableRow>
                                 <TableCell>Doc type</TableCell>
+                                <TableCell align={"right"}>Created at</TableCell>
                                 <TableCell align={"right"}>Doc number</TableCell>
                                 <TableCell align={"right"}>Doc expire</TableCell>
                                 <TableCell align={"right"}>Photos</TableCell>
@@ -350,6 +408,9 @@ class UserDataComponent extends React.Component<Props> {
                                     <TableRow>
                                         <TableCell component="th" scope="row">
                                             {document.doc_type}
+                                        </TableCell>
+                                        <TableCell align={"right"}>
+                                            {convertToUTCTime(document.created_at)}
                                         </TableCell>
                                         <TableCell align={"right"}>
                                             {document.doc_number}
@@ -396,6 +457,20 @@ class UserDataComponent extends React.Component<Props> {
 
     private changeUserState = (e: any) => {
         this.props.changeState(e.target.value);
+        this.setState({ userState: e.target.value });
+    };
+
+    private changeUserRole = (e: any) => {
+        this.props.changeRole(e.target.value);
+        this.setState({ role: e.target.value });
+    };
+
+    private changeAuth = (e: any) => {
+        this.setState({ auth: e.target.checked });
+    };
+
+    private showMoreUserInfo = (e: any) => {
+        this.setState({ showMore: !this.state.showMore });
     };
 }
 

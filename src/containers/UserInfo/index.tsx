@@ -13,6 +13,7 @@ import {
     addNewLabel,
     AppState,
     changeUserState,
+    changeUserRole,
     deleteLabel,
     getCurrentUser,
     getUserData,
@@ -28,6 +29,7 @@ interface ReduxProps {
 interface DispatchProps {
     addNewLabel: typeof addNewLabel;
     changeUserState: typeof changeUserState;
+    changeUserRole: typeof changeUserRole;
     deleteLabel: typeof deleteLabel;
     getUserData: typeof getUserData;
     logout: typeof logout;
@@ -85,6 +87,7 @@ class UserInfoScreen extends React.Component<Props, UserInfoState> {
                           changeLabelScope={this.changeScopeForNewLabel}
                           changeLabelValue={this.changeValueForNewLabel}
                           changeState={this.changeState}
+                          changeRole={this.changeRole}
                           closeModal={this.handleCloseModal}
                           deleteUserLabel={this.deleteLabel}
                           newLabelName={nameLabel}
@@ -161,6 +164,12 @@ class UserInfoScreen extends React.Component<Props, UserInfoState> {
         this.props.changeUserState({uid: uid, state: value});
         this.props.getUserData({uid: this.props.match.params.uid});
     };
+
+    private changeRole = (value: string) => {
+        const { uid } = this.props.userData;
+        this.props.changeUserRole({uid: uid, role: value});
+        this.props.getUserData({uid: this.props.match.params.uid});
+    };
 }
 
 const mapStateToProps: MapStateToProps<ReduxProps, {}, AppState> =
@@ -172,6 +181,7 @@ const mapDispatchToProps: MapDispatchToPropsFunction<DispatchProps, {}> =
     dispatch => ({
         addNewLabel: payload => dispatch(addNewLabel(payload)),
         changeUserState: payload => dispatch(changeUserState(payload)),
+        changeUserRole: payload => dispatch(changeUserRole(payload)),
         deleteLabel: (payload) => dispatch(deleteLabel(payload)),
         getUserData: payload => dispatch(getUserData(payload)),
         logout: () => dispatch(logout()),

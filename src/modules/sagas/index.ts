@@ -6,6 +6,7 @@ import { rootGetUserDataSaga } from './getUserDataSaga';
 import { rootDeleteUserLabelSaga } from './deleteUserLabelSaga';
 import { rootAddUserLabelSaga } from './addUserLabelSaga';
 import { rootChangeUserStateSaga } from './changeUserStateSaga';
+import { rootChangeUserRoleSaga } from './changeUserRoleSaga';
 
 export function* rootSaga() {
     yield all([
@@ -15,5 +16,6 @@ export function* rootSaga() {
         call(rootAddUserLabelSaga),
         call(rootDeleteUserLabelSaga),
         call(rootChangeUserStateSaga),
+        call(rootChangeUserRoleSaga),
     ]);
 }

@@ -20,7 +20,7 @@ const PrivateRoute: React.SFC<any> = ({ component: CustomComponent, isLogged, ..
 
 class Router extends React.Component {
     public render() {
-        const isCurrentSession = Cookies.get('_barong_session') ? true : false;
+        const isCurrentSession = Cookies.get('session') ? true : false;
         return (
             <Switch>
                 <PrivateRoute isLogged={isCurrentSession} exact={true} path="/" component={Dashboard}/>
