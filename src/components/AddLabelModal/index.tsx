@@ -52,12 +52,12 @@ type Props = StyleProps & AddLabelProps;
 
 const scopeTypes = [
     {
-      value: 'Public',
-      key: 'public',
+        value: 'Public',
+        key: 'public',
     },
     {
-      value: 'Private',
-      key: 'private',
+        value: 'Private',
+        key: 'private',
     },
 ];
 
@@ -73,10 +73,10 @@ class AddLabelModal extends React.Component<Props> {
 
         return (
             <Modal
-              open={this.props.open}
-              onClose={this.handleClose}
+                open={this.props.open}
+                onClose={this.handleClose}
             >
-                <Grid direction={"column"} className={classes.paper}>
+                <Grid container direction={"column"} className={classes.paper}>
                     <Grid item>
                         <Typography variant="h5" component="h5" className={classes.textField}>
                             Edit Label
@@ -121,16 +121,17 @@ class AddLabelModal extends React.Component<Props> {
                             }}
                             margin="normal"
                             variant="outlined"
-                          >
+                        >
                             {scopeTypes.map(option => (
                                 <option key={option.key} value={option.key}>
-                                  {option.value}
+                                    {option.value}
                                 </option>
                             ))}
                         </TextField>
                     </Grid>
                     <Grid item>
                         <Grid container justify={"flex-end"} spacing={8} style={{ marginTop: 20 }}>
+
                             <Grid item>
                                 <Button onClick={(e) => this.cancelAddingNewLabel()}>
                                     <Typography variant="h6" component="h6" style={{ color: "#3598D5" }}>

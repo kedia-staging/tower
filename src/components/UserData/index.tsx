@@ -155,7 +155,7 @@ class UserDataComponent extends React.Component<Props> {
                                 <b>Phone number</b>
                             </Typography>
                             <Typography variant="h6" gutterBottom component="h6" style={{ color: "#757575" }}>
-                                {user.phones[0].number}
+                                {user && user.phones.length > 0 ? this.findPhone(user.phones).number : '-'}
                             </Typography>
                         </Grid>
                         <Grid item xs={3} style={{ paddingTop: 5 }}>
@@ -189,7 +189,7 @@ class UserDataComponent extends React.Component<Props> {
                                 <b>First name</b>
                             </Typography>
                             <Typography variant="h6" gutterBottom component="h6" style={{ color: "#757575" }}>
-                                {user.profile.first_name}
+                                {user.profile !== null ? user.profile.first_name : '-'}
                             </Typography>
                         </Grid>
                         <Grid item xs={3}>
@@ -197,7 +197,7 @@ class UserDataComponent extends React.Component<Props> {
                                 <b>Last name</b>
                             </Typography>
                             <Typography variant="h6" gutterBottom component="h6" style={{ color: "#757575" }}>
-                                {user.profile.last_name}
+                                {user.profile !== null ? user.profile.last_name : '-'}
                             </Typography>
                         </Grid>
                         <Grid item xs={3}>
@@ -205,7 +205,7 @@ class UserDataComponent extends React.Component<Props> {
                                 <b>Day of Birth</b>
                             </Typography>
                             <Typography variant="h6" gutterBottom component="h6" style={{ color: "#757575" }}>
-                                {user.profile.dob}
+                                {user.profile !== null ? user.profile.dob : "-"}
                             </Typography>
                         </Grid>
                         <Grid item xs={3} style={{ paddingTop: 5 }}>
@@ -239,7 +239,7 @@ class UserDataComponent extends React.Component<Props> {
                                 <b>Country</b>
                             </Typography>
                             <Typography variant="h6" gutterBottom component="h6" style={{ color: "#757575" }}>
-                                {user.profile.country}
+                                {user.profile !== null ? user.profile.country : '-'}
                             </Typography>
                         </Grid>
                         <Grid item xs={3}>
@@ -247,7 +247,7 @@ class UserDataComponent extends React.Component<Props> {
                                 <b>Validated at</b>
                             </Typography>
                             <Typography variant="h6" gutterBottom component="h6" style={{ color: "#757575" }}>
-                                {convertToUTCTime(user.phones[0].validated_at)}
+                                {user.phones.length > 0 ? convertToUTCTime(this.findPhone(user.phones).validated_at) : '-'}
                             </Typography>
                         </Grid>
                         <Grid item xs={3}>
@@ -256,7 +256,7 @@ class UserDataComponent extends React.Component<Props> {
                                   <b>Postcode</b>
                                 </Typography>
                                 <Typography variant="h6" gutterBottom component="h6" style={{color: "#757575"}}>
-                                    {user.profile.postcode}
+                                    {user.profile !== null ? user.profile.postcode : '-'}
                                 </Typography></>
                                 ) : (
                                 <Button onClick={(e) => this.showMoreUserInfo(e)} style={{ marginTop: 10 }}>
@@ -286,90 +286,46 @@ class UserDataComponent extends React.Component<Props> {
                     </Grid>
                     {this.state.showMore ? (
                         <Grid container justify={"space-between"} style={{marginTop: 20, marginBottom: 40}}>
-                          <Grid item xs={3}>
+                            <Grid item xs={3}>
                             <Typography variant="h6" gutterBottom component="h6">
                               <b>City</b>
                             </Typography>
                             <Typography variant="h6" gutterBottom component="h6" style={{color: "#757575"}}>
-                                {user.profile.city}
+                                {user.profile !== null ? user.profile.city : '-'}
                             </Typography>
-                          </Grid>
-                          <Grid item xs={3}>
+                            </Grid>
+                            <Grid item xs={3}>
                             <Typography variant="h6" gutterBottom component="h6">
                               <b>Address</b>
                             </Typography>
                             <Typography variant="h6" gutterBottom component="h6" style={{color: "#757575"}}>
-                                {user.profile.address}
+                                {user.profile !== null ? user.profile.address : '-'}
                             </Typography>
-                          </Grid>
-                          <Grid item xs={3}>
-                              {this.state.showMore && (
+                            </Grid>
+                            <Grid item xs={3}>
+                                <Typography variant="h6" gutterBottom component="h6">
+                                    <b>Metadata</b>
+                                </Typography>
+                                <Typography variant="h6" gutterBottom component="h6" style={{color: "#757575"}}>
+                                    {user.profile !== null && user.profile.metadata !== null ? user.profile.metadata : '-'}
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={3}>
+                                {this.state.showMore && (
                                   <Button onClick={(e) => this.showMoreUserInfo(e)} style={{ marginTop: 10 }}>
                                     <Typography variant="h6" component="h6" style={{ color: "#3598D5" }}>
                                       LESS USER INFO
                                     </Typography>
                                   </Button>
-                              )}
-                          </Grid>
-                          <Grid item xs={3}/>
+                                )}
+                            </Grid>
                         </Grid>
                     ) : null}
                     <Typography variant="h5" gutterBottom component="h5">
                         Labels
                     </Typography>
                     <Grid container justify={"flex-start"} spacing={16}>
-                        {user.labels.map((label: any) => {
-                            switch (label.key) {
-                                case 'email': return (
-                                    <Grid item>
-                                        <Grid container justify={"space-between"} className={classes.label} style={{ backgroundColor: "#43A047" }}>
-                                            <Typography onClick={(e) => this.openAddLabelModal(label.key, label.value, label.scope)} className={classes.labelName}>
-                                                email:{label.value}
-                                            </Typography>
-                                            <SvgIcon onClick={(e) => this.deleteLabel(user.uid, 'email', 'private')} className={classes.icon} viewBox="0 0 32 32">
-                                                <path d="m15,0.25c8.15675,0 14.75,6.59325 14.75,14.75c0,8.15675 -6.59325,14.75 -14.75,14.75c-8.15675,0 -14.75,-6.59325 -14.75,-14.75c0,-8.15675 6.59325,-14.75 14.75,-14.75m5.29525,7.375l-5.29525,5.29525l-5.29525,-5.29525l-2.07975,2.07975l5.29525,5.29525l-5.29525,5.29525l2.07975,2.07975l5.29525,-5.29525l5.29525,5.29525l2.07975,-2.07975l-5.29525,-5.29525l5.29525,-5.29525l-2.07975,-2.07975z" id="svg_1" fill="#ffffff" stroke="null"/>
-                                            </SvgIcon>
-                                        </Grid>
-                                    </Grid>
-                                );
-                                case 'phone': return (
-                                    <Grid item>
-                                        <Grid container justify={"space-between"} className={classes.label} style={{ backgroundColor: "#009688" }}>
-                                            <Typography onClick={(e) => this.openAddLabelModal(label.key, label.value, label.scope)} className={classes.labelName}>
-                                                phone:{label.value}
-                                            </Typography>
-                                            <SvgIcon onClick={(e) => this.deleteLabel(user.uid, 'phone', 'private')} className={classes.icon} viewBox="0 0 32 32">
-                                                <path d="m15,0.25c8.15675,0 14.75,6.59325 14.75,14.75c0,8.15675 -6.59325,14.75 -14.75,14.75c-8.15675,0 -14.75,-6.59325 -14.75,-14.75c0,-8.15675 6.59325,-14.75 14.75,-14.75m5.29525,7.375l-5.29525,5.29525l-5.29525,-5.29525l-2.07975,2.07975l5.29525,5.29525l-5.29525,5.29525l2.07975,2.07975l5.29525,-5.29525l5.29525,5.29525l2.07975,-2.07975l-5.29525,-5.29525l5.29525,-5.29525l-2.07975,-2.07975z" id="svg_1" fill="#ffffff" stroke="null"/>
-                                            </SvgIcon>
-                                        </Grid>
-                                    </Grid>
-                                );
-                                case 'documents': return (
-                                    <Grid item>
-                                        <Grid container justify={"space-between"} className={classes.label} style={{ backgroundColor: "#3F51B5" }}>
-                                            <Typography onClick={(e) => this.openAddLabelModal(label.key, label.value, label.scope)} className={classes.labelName}>
-                                                document:{label.value}
-                                            </Typography>
-                                            <SvgIcon onClick={(e) => this.deleteLabel(user.uid, 'documents', 'private')} className={classes.icon} viewBox="0 0 32 32">
-                                                <path d="m15,0.25c8.15675,0 14.75,6.59325 14.75,14.75c0,8.15675 -6.59325,14.75 -14.75,14.75c-8.15675,0 -14.75,-6.59325 -14.75,-14.75c0,-8.15675 6.59325,-14.75 14.75,-14.75m5.29525,7.375l-5.29525,5.29525l-5.29525,-5.29525l-2.07975,2.07975l5.29525,5.29525l-5.29525,5.29525l2.07975,2.07975l5.29525,-5.29525l5.29525,5.29525l2.07975,-2.07975l-5.29525,-5.29525l5.29525,-5.29525l-2.07975,-2.07975z" id="svg_1" fill="#ffffff" stroke="null"/>
-                                            </SvgIcon>
-                                        </Grid>
-                                    </Grid>
-                                );
-                                default: return (
-                                    <Grid item>
-                                        <Grid container justify={"space-between"} className={classes.label} style={{ backgroundColor: "#e0e0e0" }}>
-                                            <Typography onClick={(e) => this.openAddLabelModal(label.key, label.value, label.scope)} style={{ paddingTop: 8, color: "#757575", fontSize: 16, marginRight: 7 }}>
-                                                {label.key}
-                                            </Typography>
-                                            <SvgIcon onClick={(e) => this.deleteLabel(user.uid, 'documents', 'private')} className={classes.icon} viewBox="0 0 32 32">
-                                                <path d="m15,0.25c8.15675,0 14.75,6.59325 14.75,14.75c0,8.15675 -6.59325,14.75 -14.75,14.75c-8.15675,0 -14.75,-6.59325 -14.75,-14.75c0,-8.15675 6.59325,-14.75 14.75,-14.75m5.29525,7.375l-5.29525,5.29525l-5.29525,-5.29525l-2.07975,2.07975l5.29525,5.29525l-5.29525,5.29525l2.07975,2.07975l5.29525,-5.29525l5.29525,5.29525l2.07975,-2.07975l-5.29525,-5.29525l5.29525,-5.29525l-2.07975,-2.07975z" id="svg_1" fill="#ffffff" stroke="null"/>
-                                            </SvgIcon>
-                                        </Grid>
-                                    </Grid>
-                                );
-                            }
-                        })}
+                        {user.labels.map((label: any, i: number) => this.getLabelData(label, i, classes))}
                         <Grid item>
                             <Button onClick={(e) => this.openAddLabelModal('', '', 'public')}>
                                 <Typography variant="h6" component="h6" style={{ color: "#3598D5" }}>
@@ -403,9 +359,9 @@ class UserDataComponent extends React.Component<Props> {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {user.documents.map((document: any) => {
+                            {user.documents.map((document: any, i: number) => {
                                 return (
-                                    <TableRow>
+                                    <TableRow key={i}>
                                         <TableCell component="th" scope="row">
                                             {document.doc_type}
                                         </TableCell>
@@ -443,6 +399,60 @@ class UserDataComponent extends React.Component<Props> {
         );
     }
 
+    private getLabelData = (label: any, i: number, classes: any) => {
+        const { user } = this.props;
+        switch (label.key) {
+            case 'email': return (
+                <Grid item key={i}>
+                    <Grid container justify={"space-between"} className={classes.label} style={{ backgroundColor: "#43A047" }}>
+                        <Typography onClick={(e) => this.openAddLabelModal(label.key, label.value, label.scope)} className={classes.labelName}>
+                            email:{label.value}
+                        </Typography>
+                        <SvgIcon onClick={(e) => this.deleteLabel(user.uid, 'email', 'private')} className={classes.icon} viewBox="0 0 32 32">
+                            <path d="m15,0.25c8.15675,0 14.75,6.59325 14.75,14.75c0,8.15675 -6.59325,14.75 -14.75,14.75c-8.15675,0 -14.75,-6.59325 -14.75,-14.75c0,-8.15675 6.59325,-14.75 14.75,-14.75m5.29525,7.375l-5.29525,5.29525l-5.29525,-5.29525l-2.07975,2.07975l5.29525,5.29525l-5.29525,5.29525l2.07975,2.07975l5.29525,-5.29525l5.29525,5.29525l2.07975,-2.07975l-5.29525,-5.29525l5.29525,-5.29525l-2.07975,-2.07975z" id="svg_1" fill="#ffffff" stroke="null"/>
+                        </SvgIcon>
+                    </Grid>
+                </Grid>
+            );
+            case 'phone': return (
+                <Grid item key={i}>
+                    <Grid container justify={"space-between"} className={classes.label} style={{ backgroundColor: "#009688" }}>
+                        <Typography onClick={(e) => this.openAddLabelModal(label.key, label.value, label.scope)} className={classes.labelName}>
+                            phone:{label.value}
+                        </Typography>
+                        <SvgIcon onClick={(e) => this.deleteLabel(user.uid, 'phone', 'private')} className={classes.icon} viewBox="0 0 32 32">
+                            <path d="m15,0.25c8.15675,0 14.75,6.59325 14.75,14.75c0,8.15675 -6.59325,14.75 -14.75,14.75c-8.15675,0 -14.75,-6.59325 -14.75,-14.75c0,-8.15675 6.59325,-14.75 14.75,-14.75m5.29525,7.375l-5.29525,5.29525l-5.29525,-5.29525l-2.07975,2.07975l5.29525,5.29525l-5.29525,5.29525l2.07975,2.07975l5.29525,-5.29525l5.29525,5.29525l2.07975,-2.07975l-5.29525,-5.29525l5.29525,-5.29525l-2.07975,-2.07975z" id="svg_1" fill="#ffffff" stroke="null"/>
+                        </SvgIcon>
+                    </Grid>
+                </Grid>
+            );
+            case 'documents': return (
+                <Grid item key={i}>
+                    <Grid container justify={"space-between"} className={classes.label} style={{ backgroundColor: "#3F51B5" }}>
+                        <Typography onClick={(e) => this.openAddLabelModal(label.key, label.value, label.scope)} className={classes.labelName}>
+                            document:{label.value}
+                        </Typography>
+                        <SvgIcon onClick={(e) => this.deleteLabel(user.uid, 'documents', 'private')} className={classes.icon} viewBox="0 0 32 32">
+                            <path d="m15,0.25c8.15675,0 14.75,6.59325 14.75,14.75c0,8.15675 -6.59325,14.75 -14.75,14.75c-8.15675,0 -14.75,-6.59325 -14.75,-14.75c0,-8.15675 6.59325,-14.75 14.75,-14.75m5.29525,7.375l-5.29525,5.29525l-5.29525,-5.29525l-2.07975,2.07975l5.29525,5.29525l-5.29525,5.29525l2.07975,2.07975l5.29525,-5.29525l5.29525,5.29525l2.07975,-2.07975l-5.29525,-5.29525l5.29525,-5.29525l-2.07975,-2.07975z" id="svg_1" fill="#ffffff" stroke="null"/>
+                        </SvgIcon>
+                    </Grid>
+                </Grid>
+            );
+            default: return (
+                <Grid item key={i}>
+                    <Grid container justify={"space-between"} className={classes.label} style={{ backgroundColor: "#e0e0e0" }}>
+                        <Typography onClick={(e) => this.openAddLabelModal(label.key, label.value, label.scope)} style={{ paddingTop: 8, color: "#757575", fontSize: 16, marginRight: 7 }}>
+                            {label.key}
+                        </Typography>
+                        <SvgIcon onClick={(e) => this.deleteLabel(user.uid, 'documents', 'private')} className={classes.icon} viewBox="0 0 32 32">
+                            <path d="m15,0.25c8.15675,0 14.75,6.59325 14.75,14.75c0,8.15675 -6.59325,14.75 -14.75,14.75c-8.15675,0 -14.75,-6.59325 -14.75,-14.75c0,-8.15675 6.59325,-14.75 14.75,-14.75m5.29525,7.375l-5.29525,5.29525l-5.29525,-5.29525l-2.07975,2.07975l5.29525,5.29525l-5.29525,5.29525l2.07975,2.07975l5.29525,-5.29525l5.29525,5.29525l2.07975,-2.07975l-5.29525,-5.29525l5.29525,-5.29525l-2.07975,-2.07975z" id="svg_1" fill="#ffffff" stroke="null"/>
+                        </SvgIcon>
+                    </Grid>
+                </Grid>
+            );
+        }
+    };
+
     private openAddLabelModal = (key: string, value: string, scope: string) => {
         this.props.openModal(key, value, scope);
     };
@@ -472,6 +482,16 @@ class UserDataComponent extends React.Component<Props> {
     private showMoreUserInfo = (e: any) => {
         this.setState({ showMore: !this.state.showMore });
     };
+
+    private findPhone = (phones: [any]) => {
+        let max = phones[0];
+        phones.forEach((phone: any) => {
+            if (phone.validated_at > max.validated_at) {
+                max = phone;
+            }
+        })
+        return max;
+    }
 }
 
 export const UserData = withStyles(styles)(UserDataComponent);

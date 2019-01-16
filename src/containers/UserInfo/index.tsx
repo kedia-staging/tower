@@ -64,12 +64,6 @@ class UserInfoScreen extends React.Component<Props, UserInfoState> {
         this.props.getUserData({uid: this.props.match.params.uid});
     }
 
-    public componentWillReceiveProps(next: Props) {
-        if (this.props.userData !== next.userData) {
-            this.props.getUserData({uid: this.props.match.params.uid});
-        }
-    }
-
     public render() {
         const {
             openModal,
@@ -82,20 +76,20 @@ class UserInfoScreen extends React.Component<Props, UserInfoState> {
             <Layout logout={this.userLogout}>
                 { this.props.userData
                     ? (<UserData
-                          addNewLabel={this.addLabel}
-                          changeLabelName={this.changeNameForNewLabel}
-                          changeLabelScope={this.changeScopeForNewLabel}
-                          changeLabelValue={this.changeValueForNewLabel}
-                          changeState={this.changeState}
-                          changeRole={this.changeRole}
-                          closeModal={this.handleCloseModal}
-                          deleteUserLabel={this.deleteLabel}
-                          newLabelName={nameLabel}
-                          newLabelScope={scopeLabel}
-                          newLabelValue={valueLabel}
-                          openAddLabelModal={openModal}
-                          openModal={this.handleOpenModal}
-                          user={this.props.userData}
+                            addNewLabel={this.addLabel}
+                            changeLabelName={this.changeNameForNewLabel}
+                            changeLabelScope={this.changeScopeForNewLabel}
+                            changeLabelValue={this.changeValueForNewLabel}
+                            changeState={this.changeState}
+                            changeRole={this.changeRole}
+                            closeModal={this.handleCloseModal}
+                            deleteUserLabel={this.deleteLabel}
+                            newLabelName={nameLabel}
+                            newLabelScope={scopeLabel}
+                            newLabelValue={valueLabel}
+                            openAddLabelModal={openModal}
+                            openModal={this.handleOpenModal}
+                            user={this.props.userData}
                         />
                     ) : 'Loading'
                 }
@@ -158,6 +152,7 @@ class UserInfoScreen extends React.Component<Props, UserInfoState> {
         this.changeNameForNewLabel('');
         this.changeValueForNewLabel('');
     };
+
 
     private changeState = (value: string) => {
         const { uid } = this.props.userData;
