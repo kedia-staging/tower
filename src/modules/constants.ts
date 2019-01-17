@@ -1,4 +1,5 @@
 export const LOGIN_FETCH = 'LOGIN_FETCH';
+export const LOGIN_DATA = 'LOGIN_DATA';
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';
 
 export const LOGOUT_FETCH = 'LOGOUT_FETCH';
