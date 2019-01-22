@@ -25,6 +25,8 @@ const styles = (theme: Theme) => createStyles({
     },
     submit: {
         marginTop: theme.spacing.unit * 3,
+        backgroundColor: "#3598D5",
+        color: "#ffffff",
     },
 });
 
@@ -59,8 +61,8 @@ class LoginComponent extends React.Component<Props> {
                     Sign in
                 </Typography>
                 <form className={classes.form}>
-                    <FormControl margin="normal" required fullWidth>
-                        <InputLabel htmlFor="email">Email Address</InputLabel>
+                    <FormControl margin="normal" required fullWidth style={{ color: "#3598D5" }}>
+                        <InputLabel htmlFor="email" style={{ color: "#3598D5" }}>Email Address</InputLabel>
                         <Input
                             id="email"
                             name="email"
@@ -70,8 +72,8 @@ class LoginComponent extends React.Component<Props> {
                             autoFocus
                         />
                     </FormControl>
-                    <FormControl margin="normal" required fullWidth>
-                        <InputLabel htmlFor="password">Password</InputLabel>
+                    <FormControl margin="normal" required fullWidth style={{ color: "#3598D5" }}>
+                        <InputLabel htmlFor="password" style={{ color: "#3598D5" }}>Password</InputLabel>
                         <Input
                             name="password"
                             type="password"
@@ -86,7 +88,6 @@ class LoginComponent extends React.Component<Props> {
                         onClick={this.signIn}
                         fullWidth
                         variant="contained"
-                        color="primary"
                         className={classes.submit}
                     >
                         Sign in

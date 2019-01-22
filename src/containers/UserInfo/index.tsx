@@ -13,6 +13,7 @@ import {
     addNewLabel,
     AppState,
     changeUserState,
+    changeUserRole,
     deleteLabel,
     getCurrentUser,
     getUserData,
@@ -28,6 +29,7 @@ interface ReduxProps {
 interface DispatchProps {
     addNewLabel: typeof addNewLabel;
     changeUserState: typeof changeUserState;
+    changeUserRole: typeof changeUserRole;
     deleteLabel: typeof deleteLabel;
     getUserData: typeof getUserData;
     logout: typeof logout;
@@ -62,12 +64,6 @@ class UserInfoScreen extends React.Component<Props, UserInfoState> {
         this.props.getUserData({uid: this.props.match.params.uid});
     }
 
-    public componentWillReceiveProps(next: Props) {
-        if (this.props.userData !== next.userData) {
-            this.props.getUserData({uid: this.props.match.params.uid});
-        }
-    }
-
     public render() {
         const {
             openModal,
@@ -80,19 +76,20 @@ class UserInfoScreen extends React.Component<Props, UserInfoState> {
             <Layout logout={this.userLogout}>
                 { this.props.userData
                     ? (<UserData
-                          addNewLabel={this.addLabel}
-                          changeLabelName={this.changeNameForNewLabel}
-                          changeLabelScope={this.changeScopeForNewLabel}
-                          changeLabelValue={this.changeValueForNewLabel}
-                          changeState={this.changeState}
-                          closeModal={this.handleCloseModal}
-                          deleteUserLabel={this.deleteLabel}
-                          newLabelName={nameLabel}
-                          newLabelScope={scopeLabel}
-                          newLabelValue={valueLabel}
-                          openAddLabelModal={openModal}
-                          openModal={this.handleOpenModal}
-                          user={this.props.userData}
+                            addNewLabel={this.addLabel}
+                            changeLabelName={this.changeNameForNewLabel}
+                            changeLabelScope={this.changeScopeForNewLabel}
+                            changeLabelValue={this.changeValueForNewLabel}
+                            changeState={this.changeState}
+                            changeRole={this.changeRole}
+                            closeModal={this.handleCloseModal}
+                            deleteUserLabel={this.deleteLabel}
+                            newLabelName={nameLabel}
+                            newLabelScope={scopeLabel}
+                            newLabelValue={valueLabel}
+                            openAddLabelModal={openModal}
+                            openModal={this.handleOpenModal}
+                            user={this.props.userData}
                         />
                     ) : 'Loading'
                 }
@@ -106,9 +103,12 @@ class UserInfoScreen extends React.Component<Props, UserInfoState> {
         });
     };
 
-    private handleOpenModal = () => {
+    private handleOpenModal = (key: string, value: string, scope: string) => {
         this.setState({
             openModal: true,
+            nameLabel: key,
+            valueLabel: value,
+            scopeLabel: scope,
         });
     };
 
@@ -153,9 +153,16 @@ class UserInfoScreen extends React.Component<Props, UserInfoState> {
         this.changeValueForNewLabel('');
     };
 
+
     private changeState = (value: string) => {
         const { uid } = this.props.userData;
         this.props.changeUserState({uid: uid, state: value});
+        this.props.getUserData({uid: this.props.match.params.uid});
+    };
+
+    private changeRole = (value: string) => {
+        const { uid } = this.props.userData;
+        this.props.changeUserRole({uid: uid, role: value});
         this.props.getUserData({uid: this.props.match.params.uid});
     };
 }
@@ -169,6 +176,7 @@ const mapDispatchToProps: MapDispatchToPropsFunction<DispatchProps, {}> =
     dispatch => ({
         addNewLabel: payload => dispatch(addNewLabel(payload)),
         changeUserState: payload => dispatch(changeUserState(payload)),
+        changeUserRole: payload => dispatch(changeUserRole(payload)),
         deleteLabel: (payload) => dispatch(deleteLabel(payload)),
         getUserData: payload => dispatch(getUserData(payload)),
         logout: () => dispatch(logout()),

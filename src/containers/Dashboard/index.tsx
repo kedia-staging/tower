@@ -7,7 +7,7 @@ import {
 import {
     Layout,
     OrderChart,
-    UserTable,
+    EnchancedTable,
 } from '../../components';
 import {
     AppState,
@@ -54,11 +54,18 @@ class DashboardScreen extends React.Component<Props, State> {
     public render() {
         const { users, userData } = this.props;
         const { openModal } = this.state;
+        const usersRows = [
+            { key: 'email', alignRight: false, label: 'Email' },
+            { key: 'otp', alignRight: true, label: 'Authorization method' },
+            { key: 'level', alignRight: true, label: 'Level' },
+            { key: 'role', alignRight: true, label: 'Role' },
+            { key: 'uid', alignRight: true, label: 'UID' },
+        ];
 
         return (
             <Layout logout={this.userLogout}>
                 <OrderChart />
-                { users ? <UserTable users={users} /> : null}
+                {users ? <EnchancedTable rows={usersRows} data={users}/> : null}
             </Layout>
         );
     }

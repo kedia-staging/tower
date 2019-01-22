@@ -1,5 +1,6 @@
 import {
     Button,
+    Grid,
     TextField,
 } from '@material-ui/core';
 import React from "react";
@@ -16,7 +17,7 @@ const styles = (theme: Theme) => createStyles({
     paper: {
         display: 'block',
         margin: '100px auto',
-        width: "680px",
+        width: "360px",
         backgroundColor: theme.palette.background.paper,
         boxShadow: theme.shadows[5],
         padding: theme.spacing.unit * 2,
@@ -24,19 +25,10 @@ const styles = (theme: Theme) => createStyles({
     textField: {
         marginLeft: theme.spacing.unit,
         marginRight: theme.spacing.unit,
-        width: 200,
+        width: 312,
     },
     menu: {
-        width: 200,
-    },
-    button: {
-        background: '#000000',
-        color: '#fff',
-        marginTop: theme.spacing.unit * 2,
-        marginBottom: theme.spacing.unit * 2,
-        marginLeft: theme.spacing.unit * 1.5,
-        marginRight: theme.spacing.unit * 1.5,
-        width: 300,
+        width: 400,
     }
 });
 
@@ -47,7 +39,7 @@ interface StyleProps extends WithStyles<typeof styles> {
 interface AddLabelProps {
     modalClose: () => void;
     open: boolean;
-    addNewLabel: () => void;
+    addNewLabel: (key: string, value: string, scope: string) => void;
     name: string;
     value: string;
     scope: string;
@@ -60,12 +52,12 @@ type Props = StyleProps & AddLabelProps;
 
 const scopeTypes = [
     {
-      value: 'Public',
-      key: 'public',
+        value: 'Public',
+        key: 'public',
     },
     {
-      value: 'Private',
-      key: 'private',
+        value: 'Private',
+        key: 'private',
     },
 ];
 
@@ -81,57 +73,82 @@ class AddLabelModal extends React.Component<Props> {
 
         return (
             <Modal
-              open={this.props.open}
-              onClose={this.handleClose}
+                open={this.props.open}
+                onClose={this.handleClose}
             >
-                <div className={classes.paper}>
-                    <TextField
-                        required
-                        id="standard-required"
-                        label="Label Name"
-                        value={name}
-                        onChange={this.handleChangeName}
-                        className={classes.textField}
-                        margin="normal"
-                    />
-                    <TextField
-                        required
-                        id="standard-required"
-                        label="Label Value"
-                        value={value}
-                        onChange={this.handleChangeValue}
-                        className={classes.textField}
-                        margin="normal"
-                    />
-                    <TextField
-                        select
-                        value={scope}
-                        label="Label scope"
-                        className={classes.textField}
-                        onChange={this.handleChangeScope}
-                        SelectProps={{
-                            native: true,
-                            MenuProps: {
-                                className: classes.menu,
-                            },
-                        }}
-                        margin="normal"
-                      >
-                        {scopeTypes.map(option => (
-                            <option key={option.key} value={option.key}>
-                              {option.value}
-                            </option>
-                        ))}
-                    </TextField>
-                    <Button
-                        className={classes.button}
-                        onClick={this.addLabel}>Add
-                    </Button>
-                    <Button
-                        className={classes.button}
-                        onClick={this.cancelAddingNewLabel}>Cancel
-                    </Button>
-                </div>
+                <Grid container direction={"column"} className={classes.paper}>
+                    <Grid item>
+                        <Typography variant="h5" component="h5" className={classes.textField}>
+                            Edit Label
+                        </Typography>
+                    </Grid>
+                    <Grid item>
+                        <TextField
+                            required
+                            id="standard-required"
+                            label="Key"
+                            value={name}
+                            onChange={this.handleChangeName}
+                            className={classes.textField}
+                            margin="normal"
+                            variant="outlined"
+                        />
+                    </Grid>
+                    <Grid item>
+                        <TextField
+                            required
+                            id="standard-required"
+                            label="Value"
+                            value={value}
+                            onChange={this.handleChangeValue}
+                            className={classes.textField}
+                            margin="normal"
+                            variant="outlined"
+                        />
+                    </Grid>
+                    <Grid item>
+                        <TextField
+                            select
+                            value={scope}
+                            label="Scope"
+                            className={classes.textField}
+                            onChange={this.handleChangeScope}
+                            SelectProps={{
+                                native: true,
+                                MenuProps: {
+                                    className: classes.menu,
+                                },
+                            }}
+                            margin="normal"
+                            variant="outlined"
+                        >
+                            {scopeTypes.map(option => (
+                                <option key={option.key} value={option.key}>
+                                    {option.value}
+                                </option>
+                            ))}
+                        </TextField>
+                    </Grid>
+                    <Grid item>
+                        <Grid container justify={"flex-end"} spacing={8} style={{ marginTop: 20 }}>
+
+                            <Grid item>
+                                <Button onClick={(e) => this.cancelAddingNewLabel()}>
+                                    <Typography variant="h6" component="h6" style={{ color: "#3598D5" }}>
+                                        CANCEL
+                                    </Typography>
+                                </Button>
+                            </Grid>
+                            <Grid item>
+                                <Button onClick={(e) => this.addLabel(name, value, scope)}>
+                                    <Typography variant="h6" component="h6" style={{ color: "#3598D5" }}>
+                                        OK
+                                    </Typography>
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Grid>
             </Modal>
         );
     }
@@ -151,8 +168,8 @@ class AddLabelModal extends React.Component<Props> {
         this.props.modalClose();
     };
 
-    private addLabel = () => {
-        this.props.addNewLabel();
+    private addLabel = (key: string, value: string, scope: string) => {
+        this.props.addNewLabel(key, value, scope);
         this.handleClose();
     };
 

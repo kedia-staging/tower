@@ -1,7 +1,17 @@
 import {
+    LOGIN_DATA,
     LOGIN_FETCH,
     LOGIN_FAILURE,
 } from '../constants';
+
+interface UserDataInterface {
+  email: string;
+  level: number;
+  otp: boolean;
+  role: string;
+  state: string;
+  uid: string;
+}
 
 export interface LoginError {
     code?: number;
@@ -16,12 +26,17 @@ export interface LoginFetch {
     };
 }
 
+export interface LoginData {
+    type: typeof LOGIN_DATA,
+    payload: UserDataInterface;
+}
+
 export interface LoginFailed {
     type: typeof LOGIN_FAILURE,
     payload: LoginError,
 }
 
-export type LoginAction = LoginFetch | LoginFailed;
+export type LoginAction = LoginFetch | LoginFailed | LoginData;
 
 export const login = (payload: LoginFetch['payload']): LoginFetch => ({
     type: LOGIN_FETCH,
@@ -30,5 +45,10 @@ export const login = (payload: LoginFetch['payload']): LoginFetch => ({
 
 export const loginError = (payload: LoginFailed['payload']): LoginFailed => ({
     type: LOGIN_FAILURE,
+    payload,
+});
+
+export const loginData = (payload: LoginData['payload']): LoginData => ({
+    type: LOGIN_DATA,
     payload,
 });
