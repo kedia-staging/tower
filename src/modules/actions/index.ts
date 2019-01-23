@@ -6,4 +6,6 @@ export * from './addNewLabelActions';
 export * from './deleteLabelActions';
 export * from './changeUserStateActions';
 export * from './changeUserRoleActions';
+export * from './changeUserOTPActions';
+
 

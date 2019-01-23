@@ -14,6 +14,7 @@ import {
     AppState,
     changeUserState,
     changeUserRole,
+    changeUserOTP,
     deleteLabel,
     getCurrentUser,
     getUserData,
@@ -30,6 +31,7 @@ interface DispatchProps {
     addNewLabel: typeof addNewLabel;
     changeUserState: typeof changeUserState;
     changeUserRole: typeof changeUserRole;
+    changeUserOTP: typeof changeUserOTP;
     deleteLabel: typeof deleteLabel;
     getUserData: typeof getUserData;
     logout: typeof logout;
@@ -82,6 +84,7 @@ class UserInfoScreen extends React.Component<Props, UserInfoState> {
                             changeLabelValue={this.changeValueForNewLabel}
                             changeState={this.changeState}
                             changeRole={this.changeRole}
+                            changeOTP={this.changeOTP}
                             closeModal={this.handleCloseModal}
                             deleteUserLabel={this.deleteLabel}
                             newLabelName={nameLabel}
@@ -165,6 +168,12 @@ class UserInfoScreen extends React.Component<Props, UserInfoState> {
         this.props.changeUserRole({uid: uid, role: value});
         this.props.getUserData({uid: this.props.match.params.uid});
     };
+
+    private changeOTP = (value: boolean) => {
+        const { uid } = this.props.userData;
+        this.props.changeUserOTP({uid: uid, otp: value});
+        this.props.getUserData({uid: this.props.match.params.uid});
+    };
 }
 
 const mapStateToProps: MapStateToProps<ReduxProps, {}, AppState> =
@@ -177,6 +186,7 @@ const mapDispatchToProps: MapDispatchToPropsFunction<DispatchProps, {}> =
         addNewLabel: payload => dispatch(addNewLabel(payload)),
         changeUserState: payload => dispatch(changeUserState(payload)),
         changeUserRole: payload => dispatch(changeUserRole(payload)),
+        changeUserOTP: payload => dispatch(changeUserOTP(payload)),
         deleteLabel: (payload) => dispatch(deleteLabel(payload)),
         getUserData: payload => dispatch(getUserData(payload)),
         logout: () => dispatch(logout()),

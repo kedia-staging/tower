@@ -7,7 +7,7 @@ import { API } from '../../../api';
 
 export function* changeUserRoleSaga(action: ChangeUserRoleFetch) {
     try {
-        yield call(API.post(), `/api/v2/barong/admin/users`, action.payload);
+        yield call(API.put(), `/api/v2/barong/admin/users`, action.payload);
     } catch (error) {
         yield put(changeUserRoleError(error));
     }

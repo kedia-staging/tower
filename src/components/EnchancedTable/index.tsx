@@ -98,7 +98,7 @@ const styles = (theme: Theme) => (createStyles({
     link: {
         cursor: 'pointer',
         textDecoration: 'none',
-        color: '#000',
+        color: '#3598D5',
         fontSize: '16px',
     },
 }));

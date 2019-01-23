@@ -24,6 +24,7 @@ interface UserDataProps {
     changeLabelValue: (value: string) => void;
     changeState: (value: string) => void;
     changeRole: (value: string) => void;
+    changeOTP: (value: boolean) => void;
     closeModal: () => void;
     deleteUserLabel: (uid: string, key: string, scope: string) => void;
     newLabelName: string;
@@ -106,7 +107,7 @@ class UserDataComponent extends React.Component<Props> {
     state = {
         userState: this.props.user.state,
         role: this.props.user.role,
-        auth: this.props.user.otp,
+        otp: this.props.user.otp,
         showMore: false,
     };
 
@@ -276,13 +277,13 @@ class UserDataComponent extends React.Component<Props> {
                                     <b>Authorization 2FA</b>
                                 </Typography>
                                 <Typography variant="h6" gutterBottom component="h6" style={{ color: "#757575" }}>
-                                    {this.state.auth ? 'Enable' : 'Disable'}
+                                    {this.state.otp ? 'Enable' : 'Disable'}
                                 </Typography>
                             </Grid>
                             <Grid item>
                                 <Switch
-                                    checked={this.state.auth}
-                                    onChange={this.changeAuth}
+                                    checked={this.state.otp}
+                                    onChange={this.changeUserOTP}
                                     color="primary"
                                 />
                             </Grid>
@@ -379,7 +380,7 @@ class UserDataComponent extends React.Component<Props> {
                         <Typography onClick={(e) => this.openAddLabelModal(label.key, label.value, label.scope)} className={classes.labelName}>
                             email:{label.value}
                         </Typography>
-                        <SvgIcon onClick={(e) => this.deleteLabel(user.uid, 'email', 'private')} className={classes.icon} viewBox="0 0 32 32">
+                        <SvgIcon onClick={(e) => this.deleteLabel(user.uid, label.key, label.scope)} className={classes.icon} viewBox="0 0 32 32">
                             <path d="m15,0.25c8.15675,0 14.75,6.59325 14.75,14.75c0,8.15675 -6.59325,14.75 -14.75,14.75c-8.15675,0 -14.75,-6.59325 -14.75,-14.75c0,-8.15675 6.59325,-14.75 14.75,-14.75m5.29525,7.375l-5.29525,5.29525l-5.29525,-5.29525l-2.07975,2.07975l5.29525,5.29525l-5.29525,5.29525l2.07975,2.07975l5.29525,-5.29525l5.29525,5.29525l2.07975,-2.07975l-5.29525,-5.29525l5.29525,-5.29525l-2.07975,-2.07975z" id="svg_1" fill="#ffffff" stroke="null"/>
                         </SvgIcon>
                     </Grid>
@@ -391,7 +392,7 @@ class UserDataComponent extends React.Component<Props> {
                         <Typography onClick={(e) => this.openAddLabelModal(label.key, label.value, label.scope)} className={classes.labelName}>
                             phone:{label.value}
                         </Typography>
-                        <SvgIcon onClick={(e) => this.deleteLabel(user.uid, 'phone', 'private')} className={classes.icon} viewBox="0 0 32 32">
+                        <SvgIcon onClick={(e) => this.deleteLabel(user.uid, label.key, label.scope)} className={classes.icon} viewBox="0 0 32 32">
                             <path d="m15,0.25c8.15675,0 14.75,6.59325 14.75,14.75c0,8.15675 -6.59325,14.75 -14.75,14.75c-8.15675,0 -14.75,-6.59325 -14.75,-14.75c0,-8.15675 6.59325,-14.75 14.75,-14.75m5.29525,7.375l-5.29525,5.29525l-5.29525,-5.29525l-2.07975,2.07975l5.29525,5.29525l-5.29525,5.29525l2.07975,2.07975l5.29525,-5.29525l5.29525,5.29525l2.07975,-2.07975l-5.29525,-5.29525l5.29525,-5.29525l-2.07975,-2.07975z" id="svg_1" fill="#ffffff" stroke="null"/>
                         </SvgIcon>
                     </Grid>
@@ -403,7 +404,7 @@ class UserDataComponent extends React.Component<Props> {
                         <Typography onClick={(e) => this.openAddLabelModal(label.key, label.value, label.scope)} className={classes.labelName}>
                             document:{label.value}
                         </Typography>
-                        <SvgIcon onClick={(e) => this.deleteLabel(user.uid, 'documents', 'private')} className={classes.icon} viewBox="0 0 32 32">
+                        <SvgIcon onClick={(e) => this.deleteLabel(user.uid, label.key, label.scope)} className={classes.icon} viewBox="0 0 32 32">
                             <path d="m15,0.25c8.15675,0 14.75,6.59325 14.75,14.75c0,8.15675 -6.59325,14.75 -14.75,14.75c-8.15675,0 -14.75,-6.59325 -14.75,-14.75c0,-8.15675 6.59325,-14.75 14.75,-14.75m5.29525,7.375l-5.29525,5.29525l-5.29525,-5.29525l-2.07975,2.07975l5.29525,5.29525l-5.29525,5.29525l2.07975,2.07975l5.29525,-5.29525l5.29525,5.29525l2.07975,-2.07975l-5.29525,-5.29525l5.29525,-5.29525l-2.07975,-2.07975z" id="svg_1" fill="#ffffff" stroke="null"/>
                         </SvgIcon>
                     </Grid>
@@ -415,7 +416,7 @@ class UserDataComponent extends React.Component<Props> {
                         <Typography onClick={(e) => this.openAddLabelModal(label.key, label.value, label.scope)} style={{ paddingTop: 8, color: "#757575", fontSize: 16, marginRight: 7 }}>
                             {label.key}
                         </Typography>
-                        <SvgIcon onClick={(e) => this.deleteLabel(user.uid, 'documents', 'private')} className={classes.icon} viewBox="0 0 32 32">
+                        <SvgIcon onClick={(e) => this.deleteLabel(user.uid, label.key, label.scope)} className={classes.icon} viewBox="0 0 32 32">
                             <path d="m15,0.25c8.15675,0 14.75,6.59325 14.75,14.75c0,8.15675 -6.59325,14.75 -14.75,14.75c-8.15675,0 -14.75,-6.59325 -14.75,-14.75c0,-8.15675 6.59325,-14.75 14.75,-14.75m5.29525,7.375l-5.29525,5.29525l-5.29525,-5.29525l-2.07975,2.07975l5.29525,5.29525l-5.29525,5.29525l2.07975,2.07975l5.29525,-5.29525l5.29525,5.29525l2.07975,-2.07975l-5.29525,-5.29525l5.29525,-5.29525l-2.07975,-2.07975z" id="svg_1" fill="#ffffff" stroke="null"/>
                         </SvgIcon>
                     </Grid>
@@ -446,8 +447,9 @@ class UserDataComponent extends React.Component<Props> {
         this.setState({ role: e.target.value });
     };
 
-    private changeAuth = (e: any) => {
-        this.setState({ auth: e.target.checked });
+    private changeUserOTP = (e: any) => {
+        this.props.changeOTP(e.target.checked);
+        this.setState({ otp: e.target.checked });
     };
 
     private showMoreUserInfo = (e: any) => {
