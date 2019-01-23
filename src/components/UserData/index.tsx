@@ -308,14 +308,6 @@ class UserDataComponent extends React.Component<Props> {
                             </Typography>
                             </Grid>
                             <Grid item xs={3}>
-                                <Typography variant="h6" gutterBottom component="h6">
-                                    <b>Metadata</b>
-                                </Typography>
-                                <Typography variant="h6" gutterBottom component="h6" style={{color: "#757575"}}>
-                                    {user.profile !== null && user.profile.metadata !== null ? user.profile.metadata : '-'}
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={3}>
                                 {this.state.showMore && (
                                   <Button onClick={(e) => this.showMoreUserInfo(e)} style={{ marginTop: 10 }}>
                                     <Typography variant="h6" component="h6" style={{ color: "#3598D5" }}>
@@ -324,6 +316,7 @@ class UserDataComponent extends React.Component<Props> {
                                   </Button>
                                 )}
                             </Grid>
+                            <Grid item xs={3} />
                         </Grid>
                     ) : null}
                     <Typography variant="h5" gutterBottom component="h5">
